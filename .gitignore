@@ -2,3 +2,4 @@
 *.class
 /resources/hibernate.cfg.xml
 /out/production/train-boarding-pass/hibernate.cfg.xml
+*.iml
