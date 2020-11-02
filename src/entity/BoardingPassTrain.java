@@ -52,9 +52,7 @@ public class BoardingPassTrain {
     private float ticketPrice;
 
     //Constructors
-    public BoardingPassTrain() {
-
-    }
+    public BoardingPassTrain() {}
 
     public int getId() {
         return id;
@@ -187,20 +185,9 @@ public class BoardingPassTrain {
 
     @Override
     public String toString() {
-        return "BoardingPassTrain{" +
-                "boardingPass=" + id +
-                ", name='" + name + '\'' +
-                ", date='" + date + '\'' +
-                ", origin='" + origin + '\'' +
-                ", destination='" + destination + '\'' +
-                ", eta='" + eta + '\'' +
-                ", departure='" + departure + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", gender='" + gender + '\'' +
-                ", age='" + age + '\'' +
-                ", ticketPrice='" + ticketPrice + '\'' +
-                '}';
+        return String.format("BoardingPassTrain{id=%d, name='%s', date='%s', origin='%s', destination='%s', " +
+                "eta='%s', departure='%s', email='%s', phone='%s', gender='%s', age='%d', ticketPrice='%s'}",
+                id, name, date, origin, destination, eta, departure, email, phone, gender, age, ticketPrice);
     }
 }
 
