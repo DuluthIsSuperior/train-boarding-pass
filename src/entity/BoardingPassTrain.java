@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.time.*;
 
@@ -77,6 +78,36 @@ public class BoardingPassTrain {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    /**
+     * Sets the date in this object
+     * @param month - calendar month (1-based meaning 1 is January)
+     * @param day - calendar day
+     * @param year - calendar year
+     */
+    public void setDate(int month, int day, int year) {
+        if (month < 1) {
+            System.out.println("Date not set: Month is 1-based, not 0-based");
+            return;
+        } else if (month > 12) {
+            System.out.println("Date not set: Month is out of range");
+            return;
+        } else if (day < 1) {
+            System.out.println("Date not set: Day is 1-based, not 0-based");
+            return;
+        } else if (day > 31) {
+            System.out.println("Date not set: Day is out of range");
+            return;
+        } else if (year < 0) {
+            System.out.println("Date not set: BC years are unsupported");
+            return;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month - 1);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        date = cal.getTime();
     }
 
     public String getOrigin() {
