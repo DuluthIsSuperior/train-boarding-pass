@@ -1,7 +1,9 @@
 package entity;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
+import java.time.*;
 
 //Student Entity
 @Entity //This will let Java know that this is an entity that we are going to map to a database table.
@@ -54,6 +56,24 @@ public class BoardingPassTrain {
 
     }
 
+    //Constructors to set all the fields
+    public BoardingPassTrain (String name, Date date, String origin, String destination, Date eta,
+                             Date departure, String email, String phone, String gender, int age,
+                             float ticketPrice) {
+        this.name = name;
+        this.date = date;
+        this.origin = origin;
+        this.destination = destination;
+        this.eta = eta;
+        this.departure = departure;
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+        this.age = age;
+        this.ticketPrice = ticketPrice;
+
+    }
+
     public int getId() {
         return id;
     }
@@ -76,6 +96,36 @@ public class BoardingPassTrain {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    /**
+     * Sets the date in this object
+     * @param month - calendar month (1-based meaning 1 is January)
+     * @param day - calendar day
+     * @param year - calendar year
+     */
+    public void setDate(int month, int day, int year) {
+        if (month < 1) {
+            System.out.println("Date not set: Month is 1-based, not 0-based");
+            return;
+        } else if (month > 12) {
+            System.out.println("Date not set: Month is out of range");
+            return;
+        } else if (day < 1) {
+            System.out.println("Date not set: Day is 1-based, not 0-based");
+            return;
+        } else if (day > 31) {
+            System.out.println("Date not set: Day is out of range");
+            return;
+        } else if (year < 0) {
+            System.out.println("Date not set: BC years are unsupported");
+            return;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month - 1);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        date = cal.getTime();
     }
 
     public String getOrigin() {

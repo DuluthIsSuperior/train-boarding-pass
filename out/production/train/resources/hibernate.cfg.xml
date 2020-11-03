@@ -12,6 +12,7 @@
         <property name="connection.username">hbstudent</property>
         <property name="connection.password">hbstudent</property>
 
+
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">1</property>
 
@@ -27,3 +28,4 @@
     </session-factory>
 
 </hibernate-configuration>
+
