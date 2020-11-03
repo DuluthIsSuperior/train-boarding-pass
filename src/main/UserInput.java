@@ -1,6 +1,7 @@
 package main;
 
 import entity.BoardingPassTrain;
+import entity.Train;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -39,14 +40,17 @@ public class UserInput {
         IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
+        pass1.setOrigin("Conklin");
 
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
         pass1.setName(getInput.nextLine());
+//        pass1.setName("Kyle Dick");
 
         //*** Email User Input ***
         System.out.print("Please enter your Email: ");
         pass1.setEmail(getInput.nextLine());
+//        pass1.setEmail("snooze@zzz.com");
 
         //*** Phone User Input ***
         System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
@@ -68,6 +72,7 @@ public class UserInput {
             }
         }
         pass1.setPhone(pN);
+//        pass1.setPhone("(616) 299-9438");
 
         //*** Gender User Input ***
         System.out.print("Please enter your Gender (Male or Female): ");
@@ -80,19 +85,21 @@ public class UserInput {
                 System.out.print("Sorry, I could not understand your input. Please try again: ");
             }
         }
+//        pass1.setGender("Male");
 
         //*** Age User Input ***
         System.out.print("Please enter your Age: ");
         pass1.setAge(getInt());
+//        pass1.setAge(23);
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
         IntStream.range(0, destinations.size())
                 .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, destinations.get(i)));
         int choice = getIntRange(1, destinations.size());
-        pass1.setDestination(destinations.get(choice - 1));
+        String destination = destinations.get(choice - 1);
 
-        List<Calendar> departureDates = DepartureTable.getDateByDestination(pass1.getDestination());
+        List<Calendar> departureDates = DepartureTable.getDateByDestination(destination);
         System.out.println("Please select a departure date:");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i < departureDates.size(); i++) {
@@ -101,7 +108,7 @@ public class UserInput {
         choice = getIntRange(1, departureDates.size());
         Calendar departure = departureDates.get(choice - 1);
 
-        List<Calendar> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, pass1.getDestination());
+        List<Calendar> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, destination);
         System.out.println("Please select a departure time:");
         formatter = new SimpleDateFormat("HH:mm");
         for (int i = 0; i < departureTimes.size(); i++) {
@@ -109,9 +116,11 @@ public class UserInput {
         }
         choice = getIntRange(1, departureTimes.size());
         departure = departureTimes.get(choice - 1);
-        pass1.setDeparture(departure.getTime());
 
-        DepartureTable.getTrain(departure, pass1.getDestination());
+        Train t = DepartureTable.getTrain(departure, destination);
+        pass1.setTicketPrice(discount(t.getPrice().floatValue(), pass1.getAge(), pass1.getGender()));
+        pass1.setTrainID(t.getID());
+        saveTicket(pass1);
     }
 
     public static float discount(float ticketPrice, int age, String gender) {
@@ -125,21 +134,15 @@ public class UserInput {
         return ticketPrice;
     }
 
-    public static void saveTicket (String name, String origin, String destination, Date eta,
-                                   Date departure, String email, String phone, String gender, int age,
-                                   float ticketPrice) {
+    public static void saveTicket(BoardingPassTrain pass) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(BoardingPassTrain.class)
-                .buildSessionFactory();
+            .addAnnotatedClass(BoardingPassTrain.class)
+            .buildSessionFactory();
 
         try {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
-
-            BoardingPassTrain myBoardingPassTrain = new BoardingPassTrain(name, origin, destination, eta,
-                    departure, email, phone, gender, age, ticketPrice);
-            session.save(myBoardingPassTrain);
-
+            session.save(pass);
             session.getTransaction().commit();
 
         } finally {

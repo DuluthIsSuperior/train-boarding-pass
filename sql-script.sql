@@ -21,16 +21,17 @@ INSERT INTO schedule(destination, departure, distance, price) VALUES
 ("Chattanooga", "2020-11-07 02:15:00", 685.1, 305.67);
 
 CREATE TABLE IF NOT EXISTS boarding_pass (
-  id int NOT NULL AUTO_INCREMENT,
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  train_id INT NOT NULL,
   name varchar(45) DEFAULT NULL,
   origin varchar(45) DEFAULT NULL,
-  destination varchar(45) DEFAULT NULL,
+  #destination varchar(45) DEFAULT NULL,
   eta varchar(45) DEFAULT NULL,
-  departure time DEFAULT NULL,
+  #departure time DEFAULT NULL,
   email varchar(45) DEFAULT NULL,
   phone varchar(45) DEFAULT NULL,
   gender varchar(45) DEFAULT NULL,
   age int DEFAULT NULL,
   ticket_price float DEFAULT NULL,
-  PRIMARY KEY (id)
+  FOREIGN KEY (train_id) REFERENCES schedule(ID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
