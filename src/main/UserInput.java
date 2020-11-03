@@ -10,6 +10,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.IntStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 public class UserInput {
     private static final Scanner getInput = new Scanner(System.in);
@@ -121,6 +125,14 @@ public class UserInput {
         pass1.setTicketPrice(discount(t.getPrice().floatValue(), pass1.getAge(), pass1.getGender()));
         pass1.setTrainID(t.getID());
         saveTicket(pass1);
+    }
+
+    public static Date calculateEta(Date departure, int distance, int speed){
+        int time = distance/speed;
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(departure);
+        cal.add(Calendar.HOUR_OF_DAY,time);
+        return cal.getTime();
     }
 
     public static float discount(float ticketPrice, int age, String gender) {
