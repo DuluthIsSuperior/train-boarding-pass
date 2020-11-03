@@ -50,29 +50,29 @@ public class UserInput {
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
 
         //*** Name User Input ***
-//        System.out.print("Please enter your Name: ");
-//        String name = getInput.nextLine();
-//        pass1.setName(name);
-//
-//        //*** Email User Input ***
-//        System.out.print("Please enter your Email: ");
-//        String email = getInput.nextLine();
-//        pass1.setEmail(email);
-//
-//        //*** Phone User Input ***
-//        System.out.print("Please enter your Phone Number: ");
-//        String phoneNumber = getInput.nextLine();
-//        pass1.setPhone(phoneNumber);
-//
-//        //*** Gender User Input ***
-//        System.out.print("Please enter your Gender: ");
-//        String gender = getInput.nextLine();
-//        pass1.setGender(gender);
-//
-//        //*** Age User Input ***
-//        System.out.print("Please enter your Age: ");
-//        int age = getInt();
-//        pass1.setAge(age);
+        System.out.print("Please enter your Name: ");
+        String name = getInput.nextLine();
+        pass1.setName(name);
+
+        //*** Email User Input ***
+        System.out.print("Please enter your Email: ");
+        String email = getInput.nextLine();
+        pass1.setEmail(email);
+
+        //*** Phone User Input ***
+        System.out.print("Please enter your Phone Number: ");
+        String phoneNumber = getInput.nextLine();
+        pass1.setPhone(phoneNumber);
+
+        //*** Gender User Input ***
+        System.out.print("Please enter your Gender: ");
+        String gender = getInput.nextLine();
+        pass1.setGender(gender);
+
+        //*** Age User Input ***
+        System.out.print("Please enter your Age: ");
+        int age = getInt();
+        pass1.setAge(age);
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
@@ -81,71 +81,22 @@ public class UserInput {
         int choice = getIntRange(1, destinations.size());
         pass1.setDestination(destinations.get(choice - 1));
 
-        List<Date> departureDates = DepartureTable.getDateByDestination(pass1.getDestination());
+        List<Calendar> departureDates = DepartureTable.getDateByDestination(pass1.getDestination());
         System.out.println("Please select a departure date:");
-        IntStream.range(0, departureDates.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureDates.get(i)));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i = 0; i < departureDates.size(); i++) {
+            System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureDates.get(i).getTime()));
+        }
         choice = getIntRange(1, departureDates.size());
+        Calendar departure = departureDates.get(choice - 1);
 
-
-//        List<String> departureTimes = DepartureTable.getTimeByDateAndDestination(departureDates.get(choice - 1), pass1.getDestination());
-//        System.out.println("Please select a departure time:");
-//        IntStream.range(0, departureTimes.size())
-//                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureTimes.get(i).substring(0, 5)));
-
-=======
-        Scanner getInput = new Scanner(System.in);
-//        BoardingPassTrain pass1 = new BoardingPassTrain();
-//        System.out.println("\n" + "+----------------------------------+");
-//        System.out.println("+Welcome to the World Fastest Train+");
-//        System.out.println("+----------------------------------+\n");
-//
-//        //*** Name User Input ***
-//        System.out.print("Please enter your Name: ");
-//        String name = getInput.next();
-//        pass1.setName(name);
-//        System.out.println(pass1.getName());
-//
-//        //*** Email User Input ***
-//        System.out.print("Please enter your Email: ");
-//        String email = getInput.next();
-//        pass1.setEmail(email);
-//        System.out.println(pass1.getEmail());
-//
-//        //*** Phone User Input ***
-//        System.out.print("Please enter your Phone Number: ");
-//        String phoneNumber = getInput.next();
-//        pass1.setPhone(phoneNumber);
-//        System.out.println(pass1.getPhone());
-//
-//        //*** Gender User Input ***
-//        System.out.print("Please enter your Gender: ");
-//        String gender = getInput.next();
-//        pass1.setGender(gender);
-//        System.out.println(pass1.getGender());
-//
-//        //*** Age User Input ***
-//        System.out.print("Please enter your Age: ");
-//        int age = getInput.nextInt();
-//        pass1.setAge(age);
-//        System.out.println(pass1.getAge());
-//
-//        //Departure User Input
-//        System.out.print("Please enter your Destination: ");
-//        String destination = getInput.next();
-//        pass1.setDestination(destination);
-//        System.out.println(pass1.getDestination());
-
-        //Date User Input
-        System.out.print("Please enter your Date(dd-MM-yyyy HH:mm:ss): ");
-        String date = getInput.nextLine();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Date date1 = dateFormat.parse(date);
-        System.out.println(date1);
-
-        Date eta = calculateEta(date1,1000, 120);
-        System.out.println(eta);
-
+        List<Calendar> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, pass1.getDestination());
+        System.out.println("Please select a departure time:");
+        formatter = new SimpleDateFormat("HH:mm:ss");
+        for (int i = 0; i < departureTimes.size(); i++) {
+            System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
+        }
+        pass1.setDeparture(departure.getTime());
     }
 
     public static Date calculateEta(Date departure, int distance, int speed){

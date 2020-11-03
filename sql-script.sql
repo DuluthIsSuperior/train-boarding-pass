@@ -5,18 +5,21 @@ CREATE TABLE IF NOT EXISTS schedule(
 	ID INT AUTO_INCREMENT PRIMARY KEY,
     destination VARCHAR(20) NOT NULL,
     departure DATETIME NOT NULL,
+    distance DECIMAL(5, 2) NOT NULL,
     price DECIMAL(5, 2) NOT NULL # 3 digits before the decimal, 2 after
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO schedule(destination, departure, price) VALUES
-("Chicago", "2020-11-05 15:00:00", 90.99), ("Detroit", "2020-11-05 12:00:00", 40.40), ("Atlanta", "2020-11-05 08:00:00", 210.12),
-("Grand Rapids", "2020-11-05 12:30:00", 15.00), ("San Francisco", "2020-11-05 02:15:00", 315.67),
-("Chicago", "2020-11-06 15:00:00", 85.99), ("Detroit", "2020-11-06 12:00:00", 35.40), ("Atlanta", "2020-11-06 08:00:00", 205.12),
-("Grand Rapids", "2020-11-06 12:30:00", 10.00), ("San Francisco", "2020-11-06 02:15:00", 310.67),
-("Chicago", "2020-11-07 15:00:00", 80.99), ("Detroit", "2020-11-07 12:00:00", 30.40), ("Atlanta", "2020-11-07 08:00:00", 200.12),
-("Grand Rapids", "2020-11-07 12:30:00", 5.00), ("San Francisco", "2020-11-07 02:15:00", 305.67);
+INSERT INTO schedule(destination, departure, distance, price) VALUES
+("Chicago", "2020-11-05 15:00:00", 187.99, 90.99),  ("Detroit", "2020-11-05 12:00:00", 184.00, 40.40),
+("Atlanta", "2020-11-05 08:00:00", 800.12, 210.12), ("Grand Rapids", "2020-11-05 12:30:00", 28.91, 15.00),
+("Chattanooga", "2020-11-05 02:15:00", 685.1, 315.67),
+("Chicago", "2020-11-06 15:00:00", 187.99, 85.99),  ("Detroit", "2020-11-06 12:00:00", 184.00, 35.40),
+("Atlanta", "2020-11-06 08:00:00", 800.12, 205.12), ("Grand Rapids", "2020-11-06 12:30:00", 28.91, 10.00),
+("Chattanooga", "2020-11-06 02:15:00", 685.1, 310.67),
+("Chicago", "2020-11-07 15:00:00", 187.99, 80.99),  ("Detroit", "2020-11-07 12:00:00", 184.00, 30.40),
+("Atlanta", "2020-11-07 08:00:00", 800.12, 200.12), ("Grand Rapids", "2020-11-07 12:30:00", 28.91, 5.00),
+("Chattanooga", "2020-11-07 02:15:00", 685.1, 305.67);
 
-DROP TABLE boarding_pass;
 CREATE TABLE IF NOT EXISTS boarding_pass (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(45) DEFAULT NULL,
