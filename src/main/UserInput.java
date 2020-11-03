@@ -5,6 +5,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -19,6 +23,25 @@ import java.util.Scanner;
 
 
 public class UserInput {
+
+    static Path filepath = Paths.get(System.getProperty("user.dir") + "/src/boarding_pass_ticket.txt");
+
+    private static void write(Path filepath, String name, String origin, String destination, Date eta,
+                              Date departure, String email, String phone, String gender, int age,
+                              float ticketPrice) {
+        try {
+            Files.write(filepath, ("Your name: " + name + " Age: " + age + " Gender: " + gender + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("From: " + origin + " To: " + destination + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Depature: " + departure + "Arrival: " + eta + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Email: " + email + " Cellphone: " + phone + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Ticket Price: " + ticketPrice).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+
+        } catch (Exception e){
+            System.out.println("File does not exist");
+            System.exit(-1);
+        }
+    }
+
     private static Scanner getInput = new Scanner(System.in);
 
     private static int getIntRange(int from, int to) {
