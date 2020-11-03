@@ -36,6 +36,7 @@ public abstract class DepartureTable {
         for (Timestamp ts : dateTime) {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(ts.getTime());
+            c.add(Calendar.HOUR, 5);
             dates.add(c);
         }
         return dates;
@@ -49,9 +50,16 @@ public abstract class DepartureTable {
         for (Timestamp ts : dateTime) {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(ts.getTime());
+            c.add(Calendar.HOUR, 5);
             times.add(c);
         }
         return times;
+    }
+
+    public static Train getTrain(Calendar date, String destination) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return (Train) runQuery(String.format("from Train where departure = '%s' and destination = '%s'",
+                formatter.format(date.getTime()), destination), false).get(0);
     }
 
     public static List<Train> getDepartureTable() {

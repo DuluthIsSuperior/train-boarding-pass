@@ -1,14 +1,13 @@
 package main;
 
 import entity.BoardingPassTrain;
+import entity.Train;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-<<<<<<< Updated upstream
-import java.time.*;
 import java.util.*;
 import java.util.stream.IntStream;
 =======
@@ -19,7 +18,7 @@ import java.util.Scanner;
 >>>>>>> Stashed changes
 
 public class UserInput {
-    private static Scanner getInput = new Scanner(System.in);
+    private static final Scanner getInput = new Scanner(System.in);
 
     private static int getIntRange(int from, int to) {
         while (true) {
@@ -48,40 +47,66 @@ public class UserInput {
         IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
+        pass1.setOrigin("Conklin");
 
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
-        String name = getInput.nextLine();
-        pass1.setName(name);
+        pass1.setName(getInput.nextLine());
+//        pass1.setName("Kyle Dick");
 
         //*** Email User Input ***
         System.out.print("Please enter your Email: ");
-        String email = getInput.nextLine();
-        pass1.setEmail(email);
+        pass1.setEmail(getInput.nextLine());
+//        pass1.setEmail("snooze@zzz.com");
 
         //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number: ");
-        String phoneNumber = getInput.nextLine();
-        pass1.setPhone(phoneNumber);
+        System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
+        String pN;
+        while (true) {
+            String phoneNumber = getInput.nextLine();
+            if (phoneNumber.matches("\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}")) {
+                pN = phoneNumber;
+                break;
+            } else if (phoneNumber.matches("[0-9]{3}-[0-9]{3}-[0-9]{4}")) {
+                String[] numbers = phoneNumber.split("-");
+                pN = String.format("(%s) %s-%s", numbers[0], numbers[1], numbers[2]);
+                break;
+            } else if (phoneNumber.matches("[0-9]{10}")) {
+                pN = String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
+                break;
+            } else {
+                System.out.print("Sorry, I could not understand your input. Please try again: ");
+            }
+        }
+        pass1.setPhone(pN);
+//        pass1.setPhone("(616) 299-9438");
 
         //*** Gender User Input ***
-        System.out.print("Please enter your Gender: ");
-        String gender = getInput.nextLine();
-        pass1.setGender(gender);
+        System.out.print("Please enter your Gender (Male or Female): ");
+        while (true) {
+            String gender = getInput.nextLine();
+            if (gender.matches("Male|Female")) {
+                pass1.setGender(gender);
+                break;
+            } else {
+                System.out.print("Sorry, I could not understand your input. Please try again: ");
+            }
+        }
+//        pass1.setGender("Male");
 
         //*** Age User Input ***
         System.out.print("Please enter your Age: ");
-        int age = getInt();
-        pass1.setAge(age);
+        pass1.setAge(getInt());
+//        pass1.setAge(23);
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
         IntStream.range(0, destinations.size())
                 .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, destinations.get(i)));
         int choice = getIntRange(1, destinations.size());
-        pass1.setDestination(destinations.get(choice - 1));
+        String destination = destinations.get(choice - 1);
 
-        List<Calendar> departureDates = DepartureTable.getDateByDestination(pass1.getDestination());
+        List<Calendar> departureDates = DepartureTable.getDateByDestination(destination);
         System.out.println("Please select a departure date:");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i < departureDates.size(); i++) {
@@ -90,13 +115,19 @@ public class UserInput {
         choice = getIntRange(1, departureDates.size());
         Calendar departure = departureDates.get(choice - 1);
 
-        List<Calendar> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, pass1.getDestination());
+        List<Calendar> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, destination);
         System.out.println("Please select a departure time:");
-        formatter = new SimpleDateFormat("HH:mm:ss");
+        formatter = new SimpleDateFormat("HH:mm");
         for (int i = 0; i < departureTimes.size(); i++) {
             System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
         }
-        pass1.setDeparture(departure.getTime());
+        choice = getIntRange(1, departureTimes.size());
+        departure = departureTimes.get(choice - 1);
+
+        Train t = DepartureTable.getTrain(departure, destination);
+        pass1.setTicketPrice(discount(t.getPrice().floatValue(), pass1.getAge(), pass1.getGender()));
+        pass1.setTrainID(t.getID());
+        saveTicket(pass1);
     }
 
     public static Date calculateEta(Date departure, int distance, int speed){
@@ -120,21 +151,15 @@ public class UserInput {
         return ticketPrice;
     }
 
-    public static void saveTicket (String name, String origin, String destination, Date eta,
-                                   Date departure, String email, String phone, String gender, int age,
-                                   float ticketPrice) {
+    public static void saveTicket(BoardingPassTrain pass) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(BoardingPassTrain.class)
-                .buildSessionFactory();
+            .addAnnotatedClass(BoardingPassTrain.class)
+            .buildSessionFactory();
 
         try {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
-
-            BoardingPassTrain myBoardingPassTrain = new BoardingPassTrain(name, origin, destination, eta,
-                    departure, email, phone, gender, age, ticketPrice);
-            session.save(myBoardingPassTrain);
-
+            session.save(pass);
             session.getTransaction().commit();
 
         } finally {

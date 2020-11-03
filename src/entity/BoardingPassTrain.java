@@ -17,20 +17,17 @@ public class BoardingPassTrain {
     @Column(name = "id") //This is mapping the primary key to the id column in your database.
     private int id;
 
+    @Column(name = "train_id")
+    private int trainID;
+
     @Column(name = "name") //This will map the name field to the column named first_name in your student table.
     private String name;
 
     @Column(name = "origin") //This will map the origin field to the column named email in your student table.
     private  String origin;
 
-    @Column(name = "destination") //This will map the destination field to the column named email in your student table.
-    private  String destination;
-
     @Column(name = "eta") //This will map the eta field to the column named email in your student table.
     private  Date eta;
-
-    @Column(name = "departure") //This will map the departure field to the column named email in your student table.
-    private  Date departure;
 
     @Column(name = "email") //This will map the email field to the column named email in your student table.
     private  String email;
@@ -51,14 +48,12 @@ public class BoardingPassTrain {
     public BoardingPassTrain() {}
 
     //Constructors to set all the fields
-    public BoardingPassTrain (String name, String origin, String destination, Date eta,
-                             Date departure, String email, String phone, String gender, int age,
+    public BoardingPassTrain (String name, String origin, Date eta,
+                             String email, String phone, String gender, int age,
                              float ticketPrice) {
         this.name = name;
         this.origin = origin;
-        this.destination = destination;
         this.eta = eta;
-        this.departure = departure;
         this.email = email;
         this.phone = phone;
         this.gender = gender;
@@ -91,28 +86,12 @@ public class BoardingPassTrain {
         this.origin = origin;
     }
 
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
     public Date getEta() {
         return eta;
     }
 
     public void setEta(Date eta) {
         this.eta = eta;
-    }
-
-    public Date getDeparture() {
-        return departure;
-    }
-
-    public void setDeparture(Date departure) {
-        this.departure = departure;
     }
 
     public String getEmail() {
@@ -155,14 +134,15 @@ public class BoardingPassTrain {
         this.ticketPrice = ticketPrice;
     }
 
-
-    //To string method
+    public void setTrainID(int trainID) {
+        this.trainID = trainID;
+    }
 
     @Override
     public String toString() {
-        return String.format("BoardingPassTrain{id=%d, name='%s', origin='%s', destination='%s', " +
-                "eta='%s', departure='%s', email='%s', phone='%s', gender='%s', age='%d', ticketPrice='%s'}",
-                id, name, origin, destination, eta, departure, email, phone, gender, age, ticketPrice);
+        return String.format("BoardingPassTrain{id=%d, train_id=%d, name='%s', origin='%s', " +
+                        "eta='%s', email='%s', phone='%s', gender='%s', age='%d', ticketPrice='%s'}",
+                id, trainID, name, origin, eta, email, phone, gender, age, ticketPrice);
     }
 }
 
