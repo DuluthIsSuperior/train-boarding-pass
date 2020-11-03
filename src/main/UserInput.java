@@ -41,30 +41,30 @@ public class UserInput {
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
 
-        //*** Name User Input ***
-        System.out.print("Please enter your Name: ");
-        String name = getInput.nextLine();
-        pass1.setName(name);
-
-        //*** Email User Input ***
-        System.out.print("Please enter your Email: ");
-        String email = getInput.nextLine();
-        pass1.setEmail(email);
-
-        //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number: ");
-        String phoneNumber = getInput.nextLine();
-        pass1.setPhone(phoneNumber);
-
-        //*** Gender User Input ***
-        System.out.print("Please enter your Gender: ");
-        String gender = getInput.nextLine();
-        pass1.setGender(gender);
-
-        //*** Age User Input ***
-        System.out.print("Please enter your Age: ");
-        int age = getInt();
-        pass1.setAge(age);
+//        //*** Name User Input ***
+//        System.out.print("Please enter your Name: ");
+//        String name = getInput.nextLine();
+//        pass1.setName(name);
+//
+//        //*** Email User Input ***
+//        System.out.print("Please enter your Email: ");
+//        String email = getInput.nextLine();
+//        pass1.setEmail(email);
+//
+//        //*** Phone User Input ***
+//        System.out.print("Please enter your Phone Number: ");
+//        String phoneNumber = getInput.nextLine();
+//        pass1.setPhone(phoneNumber);
+//
+//        //*** Gender User Input ***
+//        System.out.print("Please enter your Gender: ");
+//        String gender = getInput.nextLine();
+//        pass1.setGender(gender);
+//
+//        //*** Age User Input ***
+//        System.out.print("Please enter your Age: ");
+//        int age = getInt();
+//        pass1.setAge(age);
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
@@ -88,7 +88,11 @@ public class UserInput {
         for (int i = 0; i < departureTimes.size(); i++) {
             System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
         }
+        choice = getIntRange(1, departureTimes.size());
+        departure = departureTimes.get(choice - 1);
         pass1.setDeparture(departure.getTime());
+
+        DepartureTable.getTrain(departure, pass1.getDestination());
     }
 
     public static float discount(float ticketPrice, int age, String gender) {
