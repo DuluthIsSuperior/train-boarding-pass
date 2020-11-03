@@ -1,14 +1,18 @@
+package main;
+
 import entity.BoardingPassTrain;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 import java.util.Scanner;
-import java.text.SimpleDateFormat;
 
 public class UserInput {
     public static void main(String[] args) throws ParseException {
-
         Scanner getInput = new Scanner(System.in);
         BoardingPassTrain pass1 = new BoardingPassTrain();
         System.out.println("\n" + "+----------------------------------+");
@@ -84,11 +88,39 @@ public class UserInput {
 //        }
 //        System.out.println(time1);
         //Departure User Input
-       // String depatureTime = getInput.next();
-
+        // String depatureTime = getInput.next();
     }
 
-    public static void getDepatureTimeandDate () {
+    public static float discount(float ticketPrice, int age, String gender) {
+        if (age <= 12) {
+            ticketPrice = ticketPrice * 0.5f;
+        } else if (age >= 60) {
+            ticketPrice = ticketPrice - (ticketPrice * 0.6f);
+        } else if (gender.equals("Female")) {
+            ticketPrice = ticketPrice - (ticketPrice * 0.25f);
+        }
+        return ticketPrice;
+    }
 
+    public static void saveTicket (String name, Date date, String origin, String destination, Date eta,
+                                   Date departure, String email, String phone, String gender, int age,
+                                   float ticketPrice) {
+        SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
+                .addAnnotatedClass(BoardingPassTrain.class)
+                .buildSessionFactory();
+
+        try {
+            Session session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            BoardingPassTrain myBoardingPassTrain = new BoardingPassTrain(name, date, origin, destination, eta,
+                    departure, email, phone, gender, age, ticketPrice);
+            session.save(myBoardingPassTrain);
+
+            session.getTransaction().commit();
+
+        } finally {
+            factory.close();
+        }
     }
 }
