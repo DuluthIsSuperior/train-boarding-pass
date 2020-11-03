@@ -56,6 +56,24 @@ public class BoardingPassTrain {
 
     }
 
+    //Constructors to set all the fields
+    public BoardingPassTrain (String name, Date date, String origin, String destination, Date eta,
+                             Date departure, String email, String phone, String gender, int age,
+                             float ticketPrice) {
+        this.name = name;
+        this.date = date;
+        this.origin = origin;
+        this.destination = destination;
+        this.eta = eta;
+        this.departure = departure;
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+        this.age = age;
+        this.ticketPrice = ticketPrice;
+
+    }
+
     public int getId() {
         return id;
     }
