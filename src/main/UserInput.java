@@ -7,88 +7,155 @@ import org.hibernate.cfg.Configuration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+<<<<<<< Updated upstream
 import java.time.*;
+import java.util.*;
+import java.util.stream.IntStream;
+=======
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
+>>>>>>> Stashed changes
 
 public class UserInput {
+    private static Scanner getInput = new Scanner(System.in);
+
+    private static int getIntRange(int from, int to) {
+        while (true) {
+            try {
+                int input = getInput.nextInt();
+                if (input < from || input > to) {
+                    System.out.print("Sorry, your input is outside the allowed range. Please try again: ");
+                } else {
+                    return input;
+                }
+            } catch (InputMismatchException e) {
+                System.out.print("Sorry, I did not understand your input. Please try again: ");
+            }
+        }
+    }
+
+    private static int getInt() {
+        return getIntRange(Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
     public static void main(String[] args) throws ParseException {
-        Scanner getInput = new Scanner(System.in);
+<<<<<<< Updated upstream
         BoardingPassTrain pass1 = new BoardingPassTrain();
-        System.out.println("\n" + "+----------------------------------+");
-        System.out.println("+Welcome to the World Fastest Train+");
-        System.out.println("+----------------------------------+\n");
+        String message = "Welcome to the World Fastest Train";
+        System.out.print("+");
+        IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
+        System.out.printf("\n+%s+\n+", message);
+        IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
 
         //*** Name User Input ***
-        System.out.print("Please enter your Name: ");
-        String name = getInput.next();
-        pass1.setName(name);
-        System.out.println(pass1.getName());
+//        System.out.print("Please enter your Name: ");
+//        String name = getInput.nextLine();
+//        pass1.setName(name);
+//
+//        //*** Email User Input ***
+//        System.out.print("Please enter your Email: ");
+//        String email = getInput.nextLine();
+//        pass1.setEmail(email);
+//
+//        //*** Phone User Input ***
+//        System.out.print("Please enter your Phone Number: ");
+//        String phoneNumber = getInput.nextLine();
+//        pass1.setPhone(phoneNumber);
+//
+//        //*** Gender User Input ***
+//        System.out.print("Please enter your Gender: ");
+//        String gender = getInput.nextLine();
+//        pass1.setGender(gender);
+//
+//        //*** Age User Input ***
+//        System.out.print("Please enter your Age: ");
+//        int age = getInt();
+//        pass1.setAge(age);
 
-        //*** Email User Input ***
-        System.out.print("Please enter your Email: ");
-        String email = getInput.next();
-        pass1.setEmail(email);
-        System.out.println(pass1.getEmail());
+        List<String> destinations = DepartureTable.getDestinations();
+        System.out.println("Please select a destination:");
+        IntStream.range(0, destinations.size())
+                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, destinations.get(i)));
+        int choice = getIntRange(1, destinations.size());
+        pass1.setDestination(destinations.get(choice - 1));
 
-        //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number: ");
-        String phoneNumber = getInput.next();
-        pass1.setPhone(phoneNumber);
-        System.out.println(pass1.getPhone());
+        List<Date> departureDates = DepartureTable.getDateByDestination(pass1.getDestination());
+        System.out.println("Please select a departure date:");
+        IntStream.range(0, departureDates.size())
+                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureDates.get(i)));
+        choice = getIntRange(1, departureDates.size());
 
-        //*** Gender User Input ***
-        System.out.print("Please enter your Gender: ");
-        String gender = getInput.next();
-        pass1.setGender(gender);
-        System.out.println(pass1.getGender());
 
-        //*** Age User Input ***
-        System.out.print("Please enter your Age: ");
-        int age = getInput.nextInt();
-        pass1.setAge(age);
-        System.out.println(pass1.getAge());
+//        List<String> departureTimes = DepartureTable.getTimeByDateAndDestination(departureDates.get(choice - 1), pass1.getDestination());
+//        System.out.println("Please select a departure time:");
+//        IntStream.range(0, departureTimes.size())
+//                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureTimes.get(i).substring(0, 5)));
 
-        //Departure User Input
-        System.out.print("Please enter your Destination: ");
-        String destination = getInput.next();
-        pass1.setDestination(destination);
-        System.out.println(pass1.getDestination());
-        //var x = LocalDateTime.of(1998, Month.DECEMBER, 28, 12, 53);
-        //System.out.println(x);
+=======
+        Scanner getInput = new Scanner(System.in);
+//        BoardingPassTrain pass1 = new BoardingPassTrain();
+//        System.out.println("\n" + "+----------------------------------+");
+//        System.out.println("+Welcome to the World Fastest Train+");
+//        System.out.println("+----------------------------------+\n");
+//
+//        //*** Name User Input ***
+//        System.out.print("Please enter your Name: ");
+//        String name = getInput.next();
+//        pass1.setName(name);
+//        System.out.println(pass1.getName());
+//
+//        //*** Email User Input ***
+//        System.out.print("Please enter your Email: ");
+//        String email = getInput.next();
+//        pass1.setEmail(email);
+//        System.out.println(pass1.getEmail());
+//
+//        //*** Phone User Input ***
+//        System.out.print("Please enter your Phone Number: ");
+//        String phoneNumber = getInput.next();
+//        pass1.setPhone(phoneNumber);
+//        System.out.println(pass1.getPhone());
+//
+//        //*** Gender User Input ***
+//        System.out.print("Please enter your Gender: ");
+//        String gender = getInput.next();
+//        pass1.setGender(gender);
+//        System.out.println(pass1.getGender());
+//
+//        //*** Age User Input ***
+//        System.out.print("Please enter your Age: ");
+//        int age = getInput.nextInt();
+//        pass1.setAge(age);
+//        System.out.println(pass1.getAge());
+//
+//        //Departure User Input
+//        System.out.print("Please enter your Destination: ");
+//        String destination = getInput.next();
+//        pass1.setDestination(destination);
+//        System.out.println(pass1.getDestination());
+
         //Date User Input
         System.out.print("Please enter your Date(dd-MM-yyyy HH:mm:ss): ");
         String date = getInput.nextLine();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        //dateFormat.toLocalizedPattern();
-        System.out.println(dateFormat);
         Date date1 = dateFormat.parse(date);
         System.out.println(date1);
-//        Date date2=null;
-//        try {
-//            //Parsing the String
-//            date2 = dateFormat.parse(date);
-//        } catch (ParseException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        System.out.println(date2);
 
-//        Time User Input
-//        System.out.print("Please enter your Departure time: ");
-//        String depatureTime = getInput.next();
-//        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
-//        Date time1=null;
-//        try {
-//            //Parsing the String
-//            time1 = timeFormat.parse(depatureTime);
-//        } catch (ParseException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        System.out.println(time1);
-        //Departure User Input
-        // String depatureTime = getInput.next();
+        Date eta = calculateEta(date1,1000, 120);
+        System.out.println(eta);
+
+    }
+
+    public static Date calculateEta(Date departure, int distance, int speed){
+
+        int time = distance/speed;
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(departure);
+        cal.add(Calendar.HOUR_OF_DAY,time);
+        return cal.getTime();
+>>>>>>> Stashed changes
     }
 
     public static float discount(float ticketPrice, int age, String gender) {
@@ -102,7 +169,7 @@ public class UserInput {
         return ticketPrice;
     }
 
-    public static void saveTicket (String name, Date date, String origin, String destination, Date eta,
+    public static void saveTicket (String name, String origin, String destination, Date eta,
                                    Date departure, String email, String phone, String gender, int age,
                                    float ticketPrice) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
@@ -113,7 +180,7 @@ public class UserInput {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
 
-            BoardingPassTrain myBoardingPassTrain = new BoardingPassTrain(name, date, origin, destination, eta,
+            BoardingPassTrain myBoardingPassTrain = new BoardingPassTrain(name, origin, destination, eta,
                     departure, email, phone, gender, age, ticketPrice);
             session.save(myBoardingPassTrain);
 
