@@ -7,12 +7,11 @@ import org.hibernate.cfg.Configuration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
 public class UserInput {
-    private static Scanner getInput = new Scanner(System.in);
+    private static final Scanner getInput = new Scanner(System.in);
 
     private static int getIntRange(int from, int to) {
         while (true) {
@@ -41,30 +40,50 @@ public class UserInput {
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
 
-//        //*** Name User Input ***
-//        System.out.print("Please enter your Name: ");
-//        String name = getInput.nextLine();
-//        pass1.setName(name);
-//
-//        //*** Email User Input ***
-//        System.out.print("Please enter your Email: ");
-//        String email = getInput.nextLine();
-//        pass1.setEmail(email);
-//
-//        //*** Phone User Input ***
-//        System.out.print("Please enter your Phone Number: ");
-//        String phoneNumber = getInput.nextLine();
-//        pass1.setPhone(phoneNumber);
-//
-//        //*** Gender User Input ***
-//        System.out.print("Please enter your Gender: ");
-//        String gender = getInput.nextLine();
-//        pass1.setGender(gender);
-//
-//        //*** Age User Input ***
-//        System.out.print("Please enter your Age: ");
-//        int age = getInt();
-//        pass1.setAge(age);
+        //*** Name User Input ***
+        System.out.print("Please enter your Name: ");
+        pass1.setName(getInput.nextLine());
+
+        //*** Email User Input ***
+        System.out.print("Please enter your Email: ");
+        pass1.setEmail(getInput.nextLine());
+
+        //*** Phone User Input ***
+        System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
+        String pN;
+        while (true) {
+            String phoneNumber = getInput.nextLine();
+            if (phoneNumber.matches("\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}")) {
+                pN = phoneNumber;
+                break;
+            } else if (phoneNumber.matches("[0-9]{3}-[0-9]{3}-[0-9]{4}")) {
+                String[] numbers = phoneNumber.split("-");
+                pN = String.format("(%s) %s-%s", numbers[0], numbers[1], numbers[2]);
+                break;
+            } else if (phoneNumber.matches("[0-9]{10}")) {
+                pN = String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
+                break;
+            } else {
+                System.out.print("Sorry, I could not understand your input. Please try again: ");
+            }
+        }
+        pass1.setPhone(pN);
+
+        //*** Gender User Input ***
+        System.out.print("Please enter your Gender (Male or Female): ");
+        while (true) {
+            String gender = getInput.nextLine();
+            if (gender.matches("Male|Female")) {
+                pass1.setGender(gender);
+                break;
+            } else {
+                System.out.print("Sorry, I could not understand your input. Please try again: ");
+            }
+        }
+
+        //*** Age User Input ***
+        System.out.print("Please enter your Age: ");
+        pass1.setAge(getInt());
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
@@ -84,7 +103,7 @@ public class UserInput {
 
         List<Calendar> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, pass1.getDestination());
         System.out.println("Please select a departure time:");
-        formatter = new SimpleDateFormat("HH:mm:ss");
+        formatter = new SimpleDateFormat("HH:mm");
         for (int i = 0; i < departureTimes.size(); i++) {
             System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
         }
