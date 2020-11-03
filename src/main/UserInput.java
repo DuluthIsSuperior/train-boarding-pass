@@ -144,7 +144,6 @@ public class UserInput {
             session.beginTransaction();
             session.save(pass);
             session.getTransaction().commit();
-
         } finally {
             factory.close();
         }
