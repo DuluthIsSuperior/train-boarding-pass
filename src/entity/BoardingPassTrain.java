@@ -17,38 +17,38 @@ public class BoardingPassTrain {
     @Column(name = "id") //This is mapping the primary key to the id column in your database.
     private int id;
 
-    @Column(name = "name") //This will map the firstName field to the column named first_name in your student table.
+    @Column(name = "name") //This will map the name field to the column named first_name in your student table.
     private String name;
 
 
-    @Column(name = "date") //This will map the email field to the column named email in your student table.
+    @Column(name = "date") //This will map the date field to the column named email in your student table.
     private Date date;
 
-    @Column(name = "origin") //This will map the email field to the column named email in your student table.
+    @Column(name = "origin") //This will map the origin field to the column named email in your student table.
     private  String origin;
 
-    @Column(name = "destination") //This will map the email field to the column named email in your student table.
+    @Column(name = "destination") //This will map the destination field to the column named email in your student table.
     private  String destination;
 
-    @Column(name = "eta") //This will map the email field to the column named email in your student table.
+    @Column(name = "eta") //This will map the eta field to the column named email in your student table.
     private  Date eta;
 
-    @Column(name = "departure") //This will map the email field to the column named email in your student table.
+    @Column(name = "departure") //This will map the departure field to the column named email in your student table.
     private  Date departure;
 
     @Column(name = "email") //This will map the email field to the column named email in your student table.
     private  String email;
 
-    @Column(name = "phone") //This will map the email field to the column named email in your student table.
+    @Column(name = "phone") //This will map the phone field to the column named email in your student table.
     private  String phone;
 
-    @Column(name = "gender") //This will map the email field to the column named email in your student table.
+    @Column(name = "gender") //This will map the gender field to the column named email in your student table.
     private  String gender;
 
-    @Column(name = "age") //This will map the email field to the column named email in your student table.
+    @Column(name = "age") //This will map the age field to the column named email in your student table.
     private  int age;
 
-    @Column(name = "ticket_price") //This will map the email field to the column named email in your student table.
+    @Column(name = "ticket_price") //This will map the ticket price field to the column named email in your student table.
     private float ticketPrice;
 
     //Constructors
