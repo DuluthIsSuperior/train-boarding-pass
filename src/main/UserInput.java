@@ -7,16 +7,16 @@ import org.hibernate.cfg.Configuration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-<<<<<<< Updated upstream
+
 import java.time.*;
 import java.util.*;
 import java.util.stream.IntStream;
-=======
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
->>>>>>> Stashed changes
+
 
 public class UserInput {
     private static Scanner getInput = new Scanner(System.in);
@@ -41,7 +41,7 @@ public class UserInput {
     }
 
     public static void main(String[] args) throws ParseException {
-<<<<<<< Updated upstream
+
         BoardingPassTrain pass1 = new BoardingPassTrain();
         String message = "Welcome to the World Fastest Train";
         System.out.print("+");
@@ -106,7 +106,7 @@ public class UserInput {
         cal.setTime(departure);
         cal.add(Calendar.HOUR_OF_DAY,time);
         return cal.getTime();
->>>>>>> Stashed changes
+
     }
 
     public static float discount(float ticketPrice, int age, String gender) {
