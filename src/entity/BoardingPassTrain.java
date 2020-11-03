@@ -20,10 +20,6 @@ public class BoardingPassTrain {
     @Column(name = "name") //This will map the name field to the column named first_name in your student table.
     private String name;
 
-
-    @Column(name = "date") //This will map the date field to the column named email in your student table.
-    private Date date;
-
     @Column(name = "origin") //This will map the origin field to the column named email in your student table.
     private  String origin;
 
@@ -55,11 +51,10 @@ public class BoardingPassTrain {
     public BoardingPassTrain() {}
 
     //Constructors to set all the fields
-    public BoardingPassTrain (String name, Date date, String origin, String destination, Date eta,
+    public BoardingPassTrain (String name, String origin, String destination, Date eta,
                              Date departure, String email, String phone, String gender, int age,
                              float ticketPrice) {
         this.name = name;
-        this.date = date;
         this.origin = origin;
         this.destination = destination;
         this.eta = eta;
@@ -86,44 +81,6 @@ public class BoardingPassTrain {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    /**
-     * Sets the date in this object
-     * @param month - calendar month (1-based meaning 1 is January)
-     * @param day - calendar day
-     * @param year - calendar year
-     */
-    public void setDate(int month, int day, int year) {
-        if (month < 1) {
-            System.out.println("Date not set: Month is 1-based, not 0-based");
-            return;
-        } else if (month > 12) {
-            System.out.println("Date not set: Month is out of range");
-            return;
-        } else if (day < 1) {
-            System.out.println("Date not set: Day is 1-based, not 0-based");
-            return;
-        } else if (day > 31) {
-            System.out.println("Date not set: Day is out of range");
-            return;
-        } else if (year < 0) {
-            System.out.println("Date not set: BC years are unsupported");
-            return;
-        }
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month - 1);
-        cal.set(Calendar.DAY_OF_MONTH, day);
-        date = cal.getTime();
     }
 
     public String getOrigin() {
@@ -203,9 +160,9 @@ public class BoardingPassTrain {
 
     @Override
     public String toString() {
-        return String.format("BoardingPassTrain{id=%d, name='%s', date='%s', origin='%s', destination='%s', " +
+        return String.format("BoardingPassTrain{id=%d, name='%s', origin='%s', destination='%s', " +
                 "eta='%s', departure='%s', email='%s', phone='%s', gender='%s', age='%d', ticketPrice='%s'}",
-                id, name, date, origin, destination, eta, departure, email, phone, gender, age, ticketPrice);
+                id, name, origin, destination, eta, departure, email, phone, gender, age, ticketPrice);
     }
 }
 
