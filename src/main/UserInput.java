@@ -14,18 +14,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import java.time.*;
 import java.util.*;
 import java.util.stream.IntStream;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-
 public class UserInput {
+    private static final Scanner getInput = new Scanner(System.in);
 
     static Path filepath = Paths.get(System.getProperty("user.dir") + "/src/boarding_pass_ticket.txt");
 
@@ -33,13 +30,13 @@ public class UserInput {
         try {
             Files.write(filepath, ("Your name: " + myBoardingPassTrain.getName() + "   Age: " + myBoardingPassTrain.getAge() + "   Gender: " + myBoardingPassTrain.getGender() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("From: ?   To: ?\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Depature: ?   Arrival: " + myBoardingPassTrain.getEta() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Departure: ?   Arrival: " + myBoardingPassTrain.getEta() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Email: " + myBoardingPassTrain.getEmail() + "   Cellphone: " + myBoardingPassTrain.getPhone() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Ticket Price: $" + myBoardingPassTrain.getTicketPrice()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
         } catch (Exception e){
             System.out.println("File does not exist");
-            System.exit(-1);
+            System.exit(-2);
         }
     }
 
@@ -102,15 +99,12 @@ public class UserInput {
     }
 
     public static void main(String[] args) throws ParseException {
-
-
         BoardingPassTrain pass1 = new BoardingPassTrain();
         String message = "Welcome to the World Fastest Train";
         System.out.print("+");
         IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
-
 
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
@@ -182,65 +176,48 @@ public class UserInput {
         for (int i = 0; i < departureTimes.size(); i++) {
             System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
         }
+        choice = getIntRange(1, departureTimes.size());
+        departure = departureTimes.get(choice - 1);
 
-        //Get distance from schedule table
-        BigDecimal distance = DepartureTable.getDistance(pass1.getDestination());
-        float ticketPrice = DepartureTable.getTicketPrice(pass1.getDestination());
-
-        pass1.setDeparture(departure.getTime());
-
-        //Apply discount and set ticketprice to BoardingPassTrain object
-        pass1.setTicketPrice(discount(ticketPrice, pass1.getAge(), pass1.getGender()));
-
-        //Calculate ETA and set ETA to BoardingPassTrain object
-        pass1.setEta(calculateEta(pass1.getDeparture(), distance, new BigDecimal(352)));
-
-        //Send User inputs to database
+        Train t = DepartureTable.getTrain(departure, destination);
+        pass1.setTicketPrice(discount(t.getPrice(), pass1.getAge(), pass1.getGender()));
+        pass1.setTrainID(t.getID());
+        pass1.setEta(calculateEta(departure.getTime(), t.getDistance(), new BigDecimal(60)));
         saveTicket(pass1);
 
         write(filepath, pass1);
     }
 
-    //Calculate the ETA
     public static Date calculateEta(Date departure, BigDecimal distance, BigDecimal speed){
-
-        BigDecimal hour = distance.setScale(2, RoundingMode.UNNECESSARY).divide(speed, RoundingMode.HALF_UP);
-        BigDecimal minute = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60));
-        BigDecimal second = minute.subtract(new BigDecimal(minute.intValue())).multiply(new BigDecimal(60));
+        BigDecimal hour = distance.setScale(2, RoundingMode.HALF_UP).divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
         cal.setTime(departure);
         cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
-        cal.add(Calendar.MINUTE, minute.intValue());
-        cal.add(Calendar.SECOND, second.intValue());
+        int minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60)).intValue();
+        cal.add(Calendar.MINUTE, minutes);
         return cal.getTime();
-
     }
 
-    //Calculate discount on ticketPrice
-    public static float discount(float ticketPrice, int age, String gender) {
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    public static BigDecimal discount(BigDecimal ticketPrice, int age, String gender) {
         if (age <= 12) {
-            ticketPrice = Float.valueOf(decimalFormat.format(ticketPrice * 0.5f));
+            ticketPrice = ticketPrice.multiply(new BigDecimal("0.5"));
         } else if (age >= 60) {
-            ticketPrice = Float.valueOf(decimalFormat.format(ticketPrice - (ticketPrice * 0.6f)));
+            ticketPrice = ticketPrice.multiply(new BigDecimal("0.6"));
         } else if (gender.equals("Female")) {
-            ticketPrice = Float.valueOf(decimalFormat.format(ticketPrice - (ticketPrice * 0.25f)));
+            ticketPrice = ticketPrice.multiply(new BigDecimal("0.25"));
         }
         return ticketPrice.setScale(2, RoundingMode.HALF_UP);
     }
 
-    //Send user all information to database
-    public static void saveTicket(BoardingPassTrain myBoardingPassTrain) {
+    public static void saveTicket(BoardingPassTrain pass) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-            .addAnnotatedClass(BoardingPassTrain.class)
-            .buildSessionFactory();
+                .addAnnotatedClass(BoardingPassTrain.class)
+                .buildSessionFactory();
 
         try {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
-
-            session.save(myBoardingPassTrain);
-
+            session.save(pass);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
