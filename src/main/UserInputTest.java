@@ -7,9 +7,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserInputTest {
-
+    UserInput user;
     @BeforeEach
     void setUp() {
+        user = new UserInput();
     }
 
     @AfterEach
@@ -26,5 +27,9 @@ class UserInputTest {
 
     @Test
     void saveTicket() {
+    }
+
+    @Test
+    void testDiscount(){
     }
 }
