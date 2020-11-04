@@ -115,14 +115,15 @@ public class UserInput {
         pass1.setEmail(getInput.nextLine());
 
         //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
+        System.out.print("Please enter your Phone Number: ");
         while (true) {
             String pN = parsePhoneNumber(getInput.nextLine());
             if (pN != null) {
                 pass1.setPhone(pN);
                 break;
             } else {
-                System.out.print("Sorry, I did not understand your input. Please try again: ");
+                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
+                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
             }
         }
 
