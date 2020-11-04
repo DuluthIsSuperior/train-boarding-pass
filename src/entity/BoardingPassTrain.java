@@ -24,9 +24,6 @@ public class BoardingPassTrain {
     @Column(name = "name") //This will map the name field to the column named first_name in your student table.
     private String name;
 
-    @Column(name = "origin") //This will map the origin field to the column named email in your student table.
-    private  String origin;
-
     @Column(name = "eta") //This will map the eta field to the column named email in your student table.
     private  Date eta;
 
@@ -62,14 +59,6 @@ public class BoardingPassTrain {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
     }
 
     public Date getEta() {
@@ -126,9 +115,9 @@ public class BoardingPassTrain {
 
     @Override
     public String toString() {
-        return String.format("BoardingPassTrain{id=%d, train_id=%d, name='%s', origin='%s', " +
+        return String.format("BoardingPassTrain{id=%d, train_id=%d, name='%s', " +
                         "eta='%s', email='%s', phone='%s', gender='%s', age='%d', ticketPrice='%s'}",
-                id, trainID, name, origin, eta, email, phone, gender, age, ticketPrice);
+                id, trainID, name, eta, email, phone, gender, age, ticketPrice);
     }
 }
 

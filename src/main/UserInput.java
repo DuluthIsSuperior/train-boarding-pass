@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -33,8 +32,8 @@ public class UserInput {
     private static void write(Path filepath, BoardingPassTrain myBoardingPassTrain) {
         try {
             Files.write(filepath, ("Your name: " + myBoardingPassTrain.getName() + "   Age: " + myBoardingPassTrain.getAge() + "   Gender: " + myBoardingPassTrain.getGender() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("From: " + myBoardingPassTrain.getOrigin() + "   To: " + myBoardingPassTrain.getDestination() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Depature: "  + myBoardingPassTrain.getDeparture() + "   Arrival: " + myBoardingPassTrain.getEta() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("From: ?   To: ?\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Depature: ?   Arrival: " + myBoardingPassTrain.getEta() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Email: " + myBoardingPassTrain.getEmail() + "   Cellphone: " + myBoardingPassTrain.getPhone() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Ticket Price: $" + myBoardingPassTrain.getTicketPrice()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
@@ -43,8 +42,6 @@ public class UserInput {
             System.exit(-1);
         }
     }
-
-    private static Scanner getInput = new Scanner(System.in);
 
     /**
      * Gets an integer from the user within the specified range. Keeps asking until a valid integer is received.
@@ -113,7 +110,7 @@ public class UserInput {
         IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
-        pass1.setOrigin("Conklin");
+
 
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
@@ -161,14 +158,14 @@ public class UserInput {
         IntStream.range(0, origins.size())
                 .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, origins.get(i)));
         int choice = getIntRange(1, origins.size());
-        pass1.setOrigin(origins.get(choice - 1));
+        String origin = origins.get(choice - 1);
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
         IntStream.range(0, destinations.size())
                 .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, destinations.get(i)));
         choice = getIntRange(1, destinations.size());
-        pass1.setDestination(destinations.get(choice - 1));
+        String destination = destinations.get(choice - 1);
 
         List<Calendar> departureDates = DepartureTable.getDateByDestination(destination);
         System.out.println("Please select a departure date:");
@@ -201,7 +198,6 @@ public class UserInput {
         //Send User inputs to database
         saveTicket(pass1);
 
-        //Save ticket to a file
         write(filepath, pass1);
     }
 
