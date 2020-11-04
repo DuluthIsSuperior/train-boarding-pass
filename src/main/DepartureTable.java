@@ -8,9 +8,7 @@ import org.hibernate.cfg.Configuration;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 public abstract class DepartureTable {
     private static final SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
@@ -52,9 +50,14 @@ public abstract class DepartureTable {
                 destination, formatter.format(date.getTime())), true);
         List<Calendar> times = new ArrayList<>();
         for (Timestamp ts : dateTime) {
+            System.out.println(ts.toLocalDateTime());
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(ts.getTime());
             c.add(Calendar.HOUR, 5);
+            if (c.getTimeZone().getRawOffset() != -18000000) {
+                int hours = -18000000 - c.getTimeZone().getRawOffset();
+                c.add(Calendar.HOUR, -(hours / 3600000));
+            }
             times.add(c);
         }
         return times;
