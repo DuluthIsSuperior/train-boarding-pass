@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public abstract class DepartureTable {
         return result;
     }
 
+
+    public static List<String> getOrigins() {
+        return runQuery("SELECT DISTINCT origin FROM schedule", true);
+    }
     public static List<String> getDestinations() {
         return runQuery("SELECT DISTINCT destination FROM schedule", true);
     }
@@ -54,10 +59,16 @@ public abstract class DepartureTable {
         return times;
     }
 
-    public static double getDistance(String destination) {
-        List<Double> distances = runQuery(String.format("SELECT distance FROM schedule WHERE destination = '%s'", destination), true);
-        double distance = distances.get(0);
+    public static BigDecimal getDistance(String destination) {
+        List<BigDecimal> distances = runQuery(String.format("SELECT distance FROM schedule WHERE destination = '%s'", destination), true);
+        BigDecimal distance = distances.get(0);
         return distance;
+    }
+
+    public static float getTicketPrice(String destination) {
+        List<Float> prices = runQuery(String.format("SELECT price FROM schedule WHERE destination = '%s'", destination), true);
+        float price = prices.get(0);
+        return price;
     }
 
     public static List<Train> getDepartureTable() {

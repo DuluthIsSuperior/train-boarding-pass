@@ -5,10 +5,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -26,15 +29,13 @@ public class UserInput {
 
     static Path filepath = Paths.get(System.getProperty("user.dir") + "/src/boarding_pass_ticket.txt");
 
-    private static void write(Path filepath, String name, String origin, String destination, Date eta,
-                              Date departure, String email, String phone, String gender, int age,
-                              float ticketPrice) {
+    private static void write(Path filepath, BoardingPassTrain myBoardingPassTrain) {
         try {
-            Files.write(filepath, ("Your name: " + name + "   Age: " + age + "   Gender: " + gender + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("From: " + origin + "   To: " + destination + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Depature: "  + departure + "   Arrival: " + eta + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Email: " + email + "   Cellphone: " + phone + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Ticket Price: $" + ticketPrice).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Your name: " + myBoardingPassTrain.getName() + "   Age: " + myBoardingPassTrain.getAge() + "   Gender: " + myBoardingPassTrain.getGender() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("From: " + myBoardingPassTrain.getOrigin() + "   To: " + myBoardingPassTrain.getDestination() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Depature: "  + myBoardingPassTrain.getDeparture() + "   Arrival: " + myBoardingPassTrain.getEta() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Email: " + myBoardingPassTrain.getEmail() + "   Cellphone: " + myBoardingPassTrain.getPhone() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Ticket Price: $" + myBoardingPassTrain.getTicketPrice()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
         } catch (Exception e){
             System.out.println("File does not exist");
@@ -98,11 +99,18 @@ public class UserInput {
         int age = getInt();
         pass1.setAge(age);
 
+        List<String> origins = DepartureTable.getOrigins();
+        System.out.println("Please select an origin:");
+        IntStream.range(0, origins.size())
+                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, origins.get(i)));
+        int choice = getIntRange(1, origins.size());
+        pass1.setOrigin(origins.get(choice - 1));
+
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
         IntStream.range(0, destinations.size())
                 .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, destinations.get(i)));
-        int choice = getIntRange(1, destinations.size());
+        choice = getIntRange(1, destinations.size());
         pass1.setDestination(destinations.get(choice - 1));
 
         List<Calendar> departureDates = DepartureTable.getDateByDestination(pass1.getDestination());
@@ -122,61 +130,54 @@ public class UserInput {
         }
 
         //Get distance from schedule table
-        double distance = DepartureTable.getDistance(pass1.getDestination());
+        BigDecimal distance = DepartureTable.getDistance(pass1.getDestination());
+        float ticketPrice = DepartureTable.getTicketPrice(pass1.getDestination());
 
         pass1.setDeparture(departure.getTime());
 
         //Apply discount and set ticketprice to BoardingPassTrain object
-        pass1.setTicketPrice(discount(24, pass1.getAge(), pass1.getGender()));
+        pass1.setTicketPrice(discount(ticketPrice, pass1.getAge(), pass1.getGender()));
 
         //Calculate ETA and set ETA to BoardingPassTrain object
-        pass1.setEta(calculateEta(pass1.getDeparture(), distance, 352));
-
-        //Set Origin to Atlanta
-        pass1.setOrigin("Atlanta");
+        pass1.setEta(calculateEta(pass1.getDeparture(), distance, new BigDecimal(352)));
 
         //Send User inputs to database
-        saveTicket(pass1.getName(), pass1.getOrigin(), pass1.getDestination(), pass1.getEta(),
-                   pass1.getDeparture(), pass1.getEmail(), pass1.getPhone(), pass1.getGender(), pass1.getAge(),
-                   pass1.getTicketPrice());
+        saveTicket(pass1);
 
         //Save ticket to a file
-        write(filepath, pass1.getName(), pass1.getOrigin(), pass1.getDestination(), pass1.getEta(),
-                pass1.getDeparture(), pass1.getEmail(), pass1.getPhone(), pass1.getGender(), pass1.getAge(),
-                pass1.getTicketPrice());
+        write(filepath, pass1);
     }
 
     //Calculate the ETA
-    public static Date calculateEta(Date departure, double distance, double speed){
+    public static Date calculateEta(Date departure, BigDecimal distance, BigDecimal speed){
 
-        double hour = distance/speed;
-        double minute = (hour - (int)hour) * 60;
-        double second = (minute - (int)minute) * 60;
+        BigDecimal hour = distance.setScale(2, RoundingMode.UNNECESSARY).divide(speed, RoundingMode.HALF_UP);
+        BigDecimal minute = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60));
+        BigDecimal second = minute.subtract(new BigDecimal(minute.intValue())).multiply(new BigDecimal(60));
         Calendar cal = new GregorianCalendar();
         cal.setTime(departure);
-        cal.add(Calendar.HOUR_OF_DAY,(int)hour);
-        cal.add(Calendar.MINUTE, (int)minute);
-        cal.add(Calendar.SECOND, (int)second);
+        cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
+        cal.add(Calendar.MINUTE, minute.intValue());
+        cal.add(Calendar.SECOND, second.intValue());
         return cal.getTime();
 
     }
 
     //Calculate discount on ticketPrice
     public static float discount(float ticketPrice, int age, String gender) {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         if (age <= 12) {
-            ticketPrice = ticketPrice * 0.5f;
+            ticketPrice = Float.valueOf(decimalFormat.format(ticketPrice * 0.5f));
         } else if (age >= 60) {
-            ticketPrice = ticketPrice - (ticketPrice * 0.6f);
+            ticketPrice = Float.valueOf(decimalFormat.format(ticketPrice - (ticketPrice * 0.6f)));
         } else if (gender.equals("Female")) {
-            ticketPrice = ticketPrice - (ticketPrice * 0.25f);
+            ticketPrice = Float.valueOf(decimalFormat.format(ticketPrice - (ticketPrice * 0.25f)));
         }
         return ticketPrice;
     }
 
     //Send user all information to database
-    public static void saveTicket(String name, String origin, String destination, Date eta,
-                                  Date departure, String email, String phone, String gender, int age,
-                                  float ticketPrice) {
+    public static void saveTicket(BoardingPassTrain myBoardingPassTrain) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
                 .addAnnotatedClass(BoardingPassTrain.class)
                 .buildSessionFactory();
@@ -185,8 +186,6 @@ public class UserInput {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
 
-            BoardingPassTrain myBoardingPassTrain = new BoardingPassTrain(name, origin, destination, eta,
-                    departure, email, phone, gender, age, ticketPrice);
             session.save(myBoardingPassTrain);
 
             session.getTransaction().commit();
