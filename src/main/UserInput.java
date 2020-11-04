@@ -30,11 +30,11 @@ public class UserInput {
                               Date departure, String email, String phone, String gender, int age,
                               float ticketPrice) {
         try {
-            Files.write(filepath, ("Your name: " + name + " Age: " + age + " Gender: " + gender + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("From: " + origin + " To: " + destination + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Depature: "  + departure + " Arrival: " + eta + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Email: " + email + " Cellphone: " + phone + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Ticket Price: " + ticketPrice).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Your name: " + name + "   Age: " + age + "   Gender: " + gender + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("From: " + origin + "   To: " + destination + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Depature: "  + departure + "   Arrival: " + eta + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Email: " + email + "   Cellphone: " + phone + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Ticket Price: $" + ticketPrice).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
         } catch (Exception e){
             System.out.println("File does not exist");
@@ -120,31 +120,48 @@ public class UserInput {
         for (int i = 0; i < departureTimes.size(); i++) {
             System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
         }
+
+        //Get distance from schedule table
+        double distance = DepartureTable.getDistance(pass1.getDestination());
+
         pass1.setDeparture(departure.getTime());
 
+        //Apply discount and set ticketprice to BoardingPassTrain object
         pass1.setTicketPrice(discount(24, pass1.getAge(), pass1.getGender()));
-        pass1.setEta(calculateEta(pass1.getDeparture(), 600, 352));
+
+        //Calculate ETA and set ETA to BoardingPassTrain object
+        pass1.setEta(calculateEta(pass1.getDeparture(), distance, 352));
+
+        //Set Origin to Atlanta
         pass1.setOrigin("Atlanta");
-        
+
+        //Send User inputs to database
         saveTicket(pass1.getName(), pass1.getOrigin(), pass1.getDestination(), pass1.getEta(),
                    pass1.getDeparture(), pass1.getEmail(), pass1.getPhone(), pass1.getGender(), pass1.getAge(),
                    pass1.getTicketPrice());
 
+        //Save ticket to a file
         write(filepath, pass1.getName(), pass1.getOrigin(), pass1.getDestination(), pass1.getEta(),
                 pass1.getDeparture(), pass1.getEmail(), pass1.getPhone(), pass1.getGender(), pass1.getAge(),
                 pass1.getTicketPrice());
     }
 
-    public static Date calculateEta(Date departure, int distance, int speed){
+    //Calculate the ETA
+    public static Date calculateEta(Date departure, double distance, double speed){
 
-        int time = distance/speed;
+        double hour = distance/speed;
+        double minute = (hour - (int)hour) * 60;
+        double second = (minute - (int)minute) * 60;
         Calendar cal = new GregorianCalendar();
         cal.setTime(departure);
-        cal.add(Calendar.HOUR_OF_DAY,time);
+        cal.add(Calendar.HOUR_OF_DAY,(int)hour);
+        cal.add(Calendar.MINUTE, (int)minute);
+        cal.add(Calendar.SECOND, (int)second);
         return cal.getTime();
 
     }
 
+    //Calculate discount on ticketPrice
     public static float discount(float ticketPrice, int age, String gender) {
         if (age <= 12) {
             ticketPrice = ticketPrice * 0.5f;
@@ -156,6 +173,7 @@ public class UserInput {
         return ticketPrice;
     }
 
+    //Send user all information to database
     public static void saveTicket(String name, String origin, String destination, Date eta,
                                   Date departure, String email, String phone, String gender, int age,
                                   float ticketPrice) {

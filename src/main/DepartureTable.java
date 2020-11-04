@@ -54,6 +54,12 @@ public abstract class DepartureTable {
         return times;
     }
 
+    public static double getDistance(String destination) {
+        List<Double> distances = runQuery(String.format("SELECT distance FROM schedule WHERE destination = '%s'", destination), true);
+        double distance = distances.get(0);
+        return distance;
+    }
+
     public static List<Train> getDepartureTable() {
         return runQuery("from Train", false);
     }
