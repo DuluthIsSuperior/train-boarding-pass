@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS schedule(
 	ID INT AUTO_INCREMENT PRIMARY KEY,
     origin VARCHAR(20) NOT NULL,
     destination VARCHAR(20) NOT NULL,
-    departure DATETIME NOT NULL,
+    departure VARCHAR(19) NOT NULL,
     distance DECIMAL(5, 2) NOT NULL,
     price DECIMAL(5, 2) NOT NULL # 3 digits before the decimal, 2 after
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
