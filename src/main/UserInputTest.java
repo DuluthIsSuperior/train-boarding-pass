@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserInputTest {
@@ -31,5 +33,8 @@ class UserInputTest {
 
     @Test
     void testDiscount(){
+
+
+        assertEquals(90.99, user.discount(BigDecimal.valueOf(90.99),31, "Male"));
     }
 }
