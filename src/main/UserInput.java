@@ -111,6 +111,7 @@ public class UserInput {
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
 
+
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
         pass1.setName(getInput.nextLine());
