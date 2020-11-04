@@ -39,7 +39,7 @@ public class UserInput {
 
         } catch (Exception e){
             System.out.println("File does not exist");
-            System.exit(-1);
+            System.exit(-2);
         }
     }
 
