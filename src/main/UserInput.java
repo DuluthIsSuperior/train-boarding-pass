@@ -26,11 +26,11 @@ public class UserInput {
 
     static Path filepath = Paths.get(System.getProperty("user.dir") + "/src/boarding_pass_ticket.txt");
 
-    private static void write(Path filepath, BoardingPassTrain myBoardingPassTrain) {
+    private static void write(Path filepath, BoardingPassTrain myBoardingPassTrain, Train myTrain) {
         try {
             Files.write(filepath, ("Your name: " + myBoardingPassTrain.getName() + "   Age: " + myBoardingPassTrain.getAge() + "   Gender: " + myBoardingPassTrain.getGender() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("From: ?   To: ?\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Departure: ?   Arrival: " + myBoardingPassTrain.getEta() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("From: " + myBoardingPassTrain.getOrigin() + "   To: " + myTrain.getDestination() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Departure: " + myTrain.getDeparture() + "   Arrival: " + myBoardingPassTrain.getEta() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Email: " + myBoardingPassTrain.getEmail() + "   Cellphone: " + myBoardingPassTrain.getPhone() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Ticket Price: $" + myBoardingPassTrain.getTicketPrice()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
@@ -109,25 +109,23 @@ public class UserInput {
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
         pass1.setName(getInput.nextLine());
-//        pass1.setName("Kyle Dick");
 
         //*** Email User Input ***
         System.out.print("Please enter your Email: ");
         pass1.setEmail(getInput.nextLine());
-//        pass1.setEmail("snooze@zzz.com");
 
         //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
+        System.out.print("Please enter your Phone Number: ");
         while (true) {
             String pN = parsePhoneNumber(getInput.nextLine());
             if (pN != null) {
                 pass1.setPhone(pN);
                 break;
             } else {
-                System.out.print("Sorry, I did not understand your input. Please try again: ");
+                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
+                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
             }
         }
-//        pass1.setPhone("(616) 299-9438");
 
         //*** Gender User Input ***
         System.out.print("Please enter your Gender (Male or Female): ");
@@ -140,11 +138,15 @@ public class UserInput {
                 System.out.print("Sorry, I could not understand your input. Please try again: ");
             }
         }
-//        pass1.setGender("Male");
 
         //*** Age User Input ***
         System.out.print("Please enter your Age: ");
         pass1.setAge(getInt());
+
+//        pass1.setName("Kyle Dick");
+//        pass1.setEmail("snooze@zzz.com");
+//        pass1.setPhone("(616) 299-9438");
+//        pass1.setGender("Male");
 //        pass1.setAge(23);
 
         List<String> origins = DepartureTable.getOrigins();
@@ -153,6 +155,7 @@ public class UserInput {
                 .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, origins.get(i)));
         int choice = getIntRange(1, origins.size());
         String origin = origins.get(choice - 1);
+        pass1.setOrigin(origin);
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
@@ -179,13 +182,16 @@ public class UserInput {
         choice = getIntRange(1, departureTimes.size());
         departure = departureTimes.get(choice - 1);
 
+        Train train = new Train();
+        train.setDestination(destination);
+        train.setDeparture(departure.getTime());
         Train t = DepartureTable.getTrain(departure, destination);
         pass1.setTicketPrice(discount(t.getPrice(), pass1.getAge(), pass1.getGender()));
         pass1.setTrainID(t.getID());
         pass1.setEta(calculateEta(departure.getTime(), t.getDistance(), new BigDecimal(60)));
+        
         saveTicket(pass1);
-
-        write(filepath, pass1);
+        write(filepath, pass1, train);
     }
 
     public static Date calculateEta(Date departure, BigDecimal distance, BigDecimal speed){
@@ -202,9 +208,9 @@ public class UserInput {
         if (age <= 12) {
             ticketPrice = ticketPrice.multiply(new BigDecimal("0.5"));
         } else if (age >= 60) {
-            ticketPrice = ticketPrice.multiply(new BigDecimal("0.6"));
+            ticketPrice = ticketPrice.subtract(ticketPrice.multiply(new BigDecimal("0.6")));
         } else if (gender.equals("Female")) {
-            ticketPrice = ticketPrice.multiply(new BigDecimal("0.25"));
+            ticketPrice = ticketPrice.subtract(ticketPrice.multiply(new BigDecimal("0.25")));
         }
         return ticketPrice.setScale(2, RoundingMode.HALF_UP);
     }

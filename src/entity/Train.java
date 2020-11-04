@@ -2,6 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -22,8 +23,24 @@ public class Train {
     @Column(name = "destination", length = 20, nullable = false)
     private String destination;
 
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
     @Column(name = "departure", nullable = false)
     private Date departure;
+
+    public Date getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(Date departure) {
+        this.departure = departure;
+    }
 
     @Column(name = "distance", nullable = false)
     private BigDecimal distance;
