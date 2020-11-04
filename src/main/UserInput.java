@@ -131,11 +131,12 @@ public class UserInput {
     }
 
     public static Date calculateEta(Date departure, BigDecimal distance, BigDecimal speed){
-        BigDecimal hour = distance.divide(speed, RoundingMode.HALF_UP);
+        BigDecimal hour = distance.setScale(2, RoundingMode.UNNECESSARY).divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
         cal.setTime(departure);
         cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
-        BigDecimal minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60));
+        int minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60)).intValue();
+        cal.add(Calendar.MINUTE, minutes);
         return cal.getTime();
     }
 
