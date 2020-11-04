@@ -19,9 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/UserInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/UserInputTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,11 +67,14 @@
     <key name="CreateTestDialog.RecentsKey">
       <recent name="main" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserInputTest (1)">
+  <component name="RunManager" selected="Application.UserInput">
     <configuration name="TestConnection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test_resources.TestConnection" />
       <module name="train-boarding-pass" />
@@ -126,8 +127,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UserInputTest (1)" />
         <item itemvalue="Application.UserInput" />
+        <item itemvalue="JUnit.UserInputTest (1)" />
         <item itemvalue="Application.TestConnection" />
         <item itemvalue="JUnit.UserInputTest" />
       </list>
@@ -164,26 +165,26 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="348" y="82" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1604430043926" />
-    <state width="1237" height="141" key="GridCell.Tab.0.bottom" timestamp="1604522359051">
+    <state width="1237" height="141" key="GridCell.Tab.0.bottom" timestamp="1604523869637">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604522359051" />
-    <state width="1237" height="141" key="GridCell.Tab.0.center" timestamp="1604522359048">
+    <state width="1237" height="141" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604523869637" />
+    <state width="1237" height="141" key="GridCell.Tab.0.center" timestamp="1604523869635">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604522359048" />
-    <state width="1237" height="141" key="GridCell.Tab.0.left" timestamp="1604522359046">
+    <state width="1237" height="141" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604523869635" />
+    <state width="1237" height="141" key="GridCell.Tab.0.left" timestamp="1604523869634">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604522359046" />
-    <state width="1237" height="141" key="GridCell.Tab.0.right" timestamp="1604522359050">
+    <state width="1237" height="141" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604523869634" />
+    <state width="1237" height="141" key="GridCell.Tab.0.right" timestamp="1604523869636">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604522359050" />
-    <state x="121" y="0" key="SettingsEditor" timestamp="1604517545084">
+    <state width="1237" height="141" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604523869636" />
+    <state x="121" y="0" key="SettingsEditor" timestamp="1604523787764">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="121" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1604517545084" />
+    <state x="121" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1604523787764" />
     <state x="451" y="118" key="chooseDestDirectoryDialog" timestamp="1604507135338">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -200,16 +201,5 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="297" y="151" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1604432292537" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/UserInput.java</url>
-          <line>151</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
