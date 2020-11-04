@@ -60,19 +60,9 @@ public abstract class DepartureTable {
         return times;
     }
 
-    public static BigDecimal getDistance(String destination) {
-        List<BigDecimal> distances = runQuery(String.format("SELECT distance FROM schedule WHERE destination = '%s'", destination), true);
-        BigDecimal distance = distances.get(0);
-        return distance;
-    }
-
-    public static float getTicketPrice(String destination) {
-        List<Float> prices = runQuery(String.format("SELECT price FROM schedule WHERE destination = '%s'", destination), true);
-        float price = prices.get(0);
-        return price;
-    }
-
-    public static List<Train> getDepartureTable() {
-        return runQuery("from Train", false);
+    public static Train getTrain(Calendar date, String destination) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return (Train) runQuery(String.format("from Train where departure = '%s' and destination = '%s'",
+                formatter.format(date.getTime()), destination), false).get(0);
     }
 }
