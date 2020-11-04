@@ -124,14 +124,14 @@ public class UserInput {
         departure = departureTimes.get(choice - 1);
 
         Train t = DepartureTable.getTrain(departure, destination);
-        pass1.setTicketPrice(discount(t.getPrice().floatValue(), pass1.getAge(), pass1.getGender()));
+        pass1.setTicketPrice(discount(t.getPrice(), pass1.getAge(), pass1.getGender()));
         pass1.setTrainID(t.getID());
-        calculateEta(departure.getTime(), t.getDistance(), new BigDecimal(60));
+        pass1.setEta(calculateEta(departure.getTime(), t.getDistance(), new BigDecimal(60)));
         saveTicket(pass1);
     }
 
     public static Date calculateEta(Date departure, BigDecimal distance, BigDecimal speed){
-        BigDecimal hour = distance.setScale(2, RoundingMode.UNNECESSARY).divide(speed, RoundingMode.HALF_UP);
+        BigDecimal hour = distance.setScale(2, RoundingMode.HALF_UP).divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
         cal.setTime(departure);
         cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
@@ -140,15 +140,15 @@ public class UserInput {
         return cal.getTime();
     }
 
-    public static float discount(float ticketPrice, int age, String gender) {
+    public static BigDecimal discount(BigDecimal ticketPrice, int age, String gender) {
         if (age <= 12) {
-            ticketPrice = ticketPrice * 0.5f;
+            ticketPrice = ticketPrice.multiply(new BigDecimal("0.5"));
         } else if (age >= 60) {
-            ticketPrice = ticketPrice - (ticketPrice * 0.6f);
+            ticketPrice = ticketPrice.multiply(new BigDecimal("0.6"));
         } else if (gender.equals("Female")) {
-            ticketPrice = ticketPrice - (ticketPrice * 0.25f);
+            ticketPrice = ticketPrice.multiply(new BigDecimal("0.25"));
         }
-        return ticketPrice;
+        return ticketPrice.setScale(2, RoundingMode.HALF_UP);
     }
 
     public static void saveTicket(BoardingPassTrain pass) {

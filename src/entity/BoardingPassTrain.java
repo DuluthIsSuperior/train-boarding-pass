@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.time.*;
@@ -42,25 +43,10 @@ public class BoardingPassTrain {
     private  int age;
 
     @Column(name = "ticket_price") //This will map the ticket price field to the column named email in your student table.
-    private float ticketPrice;
+    private BigDecimal ticketPrice;
 
     //Constructors
     public BoardingPassTrain() {}
-
-    //Constructors to set all the fields
-    public BoardingPassTrain (String name, String origin, Date eta,
-                             String email, String phone, String gender, int age,
-                             float ticketPrice) {
-        this.name = name;
-        this.origin = origin;
-        this.eta = eta;
-        this.email = email;
-        this.phone = phone;
-        this.gender = gender;
-        this.age = age;
-        this.ticketPrice = ticketPrice;
-
-    }
 
     public int getId() {
         return id;
@@ -126,11 +112,11 @@ public class BoardingPassTrain {
         this.age = age;
     }
 
-    public float getTicketPrice() {
+    public BigDecimal getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setTicketPrice(float ticketPrice) {
+    public void setTicketPrice(BigDecimal ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
 
