@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS schedule(
     origin VARCHAR(20) NOT NULL,
     destination VARCHAR(20) NOT NULL,
     departure DATETIME NOT NULL,
-    distance DOUBLE NOT NULL,
-    price FLOAT NOT NULL # 3 digits before the decimal, 2 after
+    distance DECIMAL(5, 2) NOT NULL,
+    price DECIMAL(5, 2) NOT NULL # 3 digits before the decimal, 2 after
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 INSERT INTO schedule(origin, destination, departure, distance, price) VALUES
