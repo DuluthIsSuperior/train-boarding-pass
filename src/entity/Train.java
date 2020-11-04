@@ -22,6 +22,13 @@ public class Train {
     @Column(name = "departure", nullable = false)
     private Date departure;
 
+    @Column(name = "distance", nullable = false)
+    private BigDecimal distance;
+
+    public BigDecimal getDistance() {
+        return distance;
+    }
+
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 

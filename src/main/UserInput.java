@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -47,54 +49,54 @@ public class UserInput {
         pass1.setOrigin("Conklin");
 
         //*** Name User Input ***
-        System.out.print("Please enter your Name: ");
-        pass1.setName(getInput.nextLine());
-//        pass1.setName("Kyle Dick");
+//        System.out.print("Please enter your Name: ");
+//        pass1.setName(getInput.nextLine());
+        pass1.setName("Kyle Dick");
 
         //*** Email User Input ***
-        System.out.print("Please enter your Email: ");
-        pass1.setEmail(getInput.nextLine());
-//        pass1.setEmail("snooze@zzz.com");
+//        System.out.print("Please enter your Email: ");
+//        pass1.setEmail(getInput.nextLine());
+        pass1.setEmail("snooze@zzz.com");
 
         //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
-        String pN;
-        while (true) {
-            String phoneNumber = getInput.nextLine();
-            if (phoneNumber.matches("\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}")) {
-                pN = phoneNumber;
-                break;
-            } else if (phoneNumber.matches("[0-9]{3}-[0-9]{3}-[0-9]{4}")) {
-                String[] numbers = phoneNumber.split("-");
-                pN = String.format("(%s) %s-%s", numbers[0], numbers[1], numbers[2]);
-                break;
-            } else if (phoneNumber.matches("[0-9]{10}")) {
-                pN = String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
-                break;
-            } else {
-                System.out.print("Sorry, I could not understand your input. Please try again: ");
-            }
-        }
-        pass1.setPhone(pN);
-//        pass1.setPhone("(616) 299-9438");
+//        System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
+//        String pN;
+//        while (true) {
+//            String phoneNumber = getInput.nextLine();
+//            if (phoneNumber.matches("\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}")) {
+//                pN = phoneNumber;
+//                break;
+//            } else if (phoneNumber.matches("[0-9]{3}-[0-9]{3}-[0-9]{4}")) {
+//                String[] numbers = phoneNumber.split("-");
+//                pN = String.format("(%s) %s-%s", numbers[0], numbers[1], numbers[2]);
+//                break;
+//            } else if (phoneNumber.matches("[0-9]{10}")) {
+//                pN = String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
+//                break;
+//            } else {
+//                System.out.print("Sorry, I could not understand your input. Please try again: ");
+//            }
+//        }
+//        pass1.setPhone(pN);
+        pass1.setPhone("(616) 299-9438");
 
         //*** Gender User Input ***
-        System.out.print("Please enter your Gender (Male or Female): ");
-        while (true) {
-            String gender = getInput.nextLine();
-            if (gender.matches("Male|Female")) {
-                pass1.setGender(gender);
-                break;
-            } else {
-                System.out.print("Sorry, I could not understand your input. Please try again: ");
-            }
-        }
-//        pass1.setGender("Male");
+//        System.out.print("Please enter your Gender (Male or Female): ");
+//        while (true) {
+//            String gender = getInput.nextLine();
+//            if (gender.matches("(M|m)ale|(F|f)emale")) {
+//                pass1.setGender(gender);
+//                break;
+//            } else {
+//                System.out.print("Sorry, I could not understand your input. Please try again: ");
+//            }
+//        }
+        pass1.setGender("Male");
 
         //*** Age User Input ***
-        System.out.print("Please enter your Age: ");
-        pass1.setAge(getInt());
-//        pass1.setAge(23);
+//        System.out.print("Please enter your Age: ");
+//        pass1.setAge(getInt());
+        pass1.setAge(23);
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
@@ -124,14 +126,16 @@ public class UserInput {
         Train t = DepartureTable.getTrain(departure, destination);
         pass1.setTicketPrice(discount(t.getPrice().floatValue(), pass1.getAge(), pass1.getGender()));
         pass1.setTrainID(t.getID());
-        saveTicket(pass1);
+        calculateEta(departure.getTime(), t.getDistance(), new BigDecimal(60));
+//        saveTicket(pass1);
     }
 
-    public static Date calculateEta(Date departure, int distance, int speed){
-        int time = distance/speed;
+    public static Date calculateEta(Date departure, BigDecimal distance, BigDecimal speed){
+        BigDecimal hour = distance.divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
         cal.setTime(departure);
-        cal.add(Calendar.HOUR_OF_DAY,time);
+        cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
+        BigDecimal minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60));
         return cal.getTime();
     }
 
