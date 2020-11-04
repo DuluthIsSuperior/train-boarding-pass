@@ -21,9 +21,6 @@ public class BoardingPassTrain {
     @Column(name = "train_id")
     private int trainID;
 
-    @Column(name = "origin")
-    private String origin;
-
     @Column(name = "name") //This will map the name field to the column named first_name in your student table.
     private String name;
 
@@ -114,14 +111,6 @@ public class BoardingPassTrain {
 
     public void setTrainID(int trainID) {
         this.trainID = trainID;
-    }
-
-    public String getOrigin() {
-        return  origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
     }
 
     @Override

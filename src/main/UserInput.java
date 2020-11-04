@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.IntStream;
@@ -29,7 +30,7 @@ public class UserInput {
     private static void write(Path filepath, BoardingPassTrain myBoardingPassTrain, Train myTrain) {
         try {
             Files.write(filepath, ("Your name: " + myBoardingPassTrain.getName() + "   Age: " + myBoardingPassTrain.getAge() + "   Gender: " + myBoardingPassTrain.getGender() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("From: " + myBoardingPassTrain.getOrigin() + "   To: " + myTrain.getDestination() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("From: ?   To: " + myTrain.getDestination() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Departure: " + myTrain.getDeparture() + "   Arrival: " + myBoardingPassTrain.getEta() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Email: " + myBoardingPassTrain.getEmail() + "   Cellphone: " + myBoardingPassTrain.getPhone() + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Ticket Price: $" + myBoardingPassTrain.getTicketPrice()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
@@ -106,56 +107,56 @@ public class UserInput {
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
 
-        //*** Name User Input ***
-        System.out.print("Please enter your Name: ");
-        pass1.setName(getInput.nextLine());
+//        //*** Name User Input ***
+//        System.out.print("Please enter your Name: ");
+//        pass1.setName(getInput.nextLine());
+//
+//        //*** Email User Input ***
+//        System.out.print("Please enter your Email: ");
+//        pass1.setEmail(getInput.nextLine());
+//
+//        //*** Phone User Input ***
+//        System.out.print("Please enter your Phone Number: ");
+//        while (true) {
+//            String pN = parsePhoneNumber(getInput.nextLine());
+//            if (pN != null) {
+//                pass1.setPhone(pN);
+//                break;
+//            } else {
+//                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
+//                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
+//            }
+//        }
+//
+//        //*** Gender User Input ***
+//        System.out.print("Please enter your Gender (Male or Female): ");
+//        while (true) {
+//            String gender = parseGender(getInput.nextLine());
+//            if (gender != null) {
+//                pass1.setGender(gender);
+//                break;
+//            } else {
+//                System.out.print("Sorry, I could not understand your input. Please try again: ");
+//            }
+//        }
+//
+//        //*** Age User Input ***
+//        System.out.print("Please enter your Age: ");
+//        pass1.setAge(getInt());
 
-        //*** Email User Input ***
-        System.out.print("Please enter your Email: ");
-        pass1.setEmail(getInput.nextLine());
+        pass1.setName("Kyle Dick");
+        pass1.setEmail("snooze@zzz.com");
+        pass1.setPhone("(616) 299-9438");
+        pass1.setGender("Male");
+        pass1.setAge(23);
 
-        //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number: ");
-        while (true) {
-            String pN = parsePhoneNumber(getInput.nextLine());
-            if (pN != null) {
-                pass1.setPhone(pN);
-                break;
-            } else {
-                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
-                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
-            }
-        }
-
-        //*** Gender User Input ***
-        System.out.print("Please enter your Gender (Male or Female): ");
-        while (true) {
-            String gender = parseGender(getInput.nextLine());
-            if (gender != null) {
-                pass1.setGender(gender);
-                break;
-            } else {
-                System.out.print("Sorry, I could not understand your input. Please try again: ");
-            }
-        }
-
-        //*** Age User Input ***
-        System.out.print("Please enter your Age: ");
-        pass1.setAge(getInt());
-
-//        pass1.setName("Kyle Dick");
-//        pass1.setEmail("snooze@zzz.com");
-//        pass1.setPhone("(616) 299-9438");
-//        pass1.setGender("Male");
-//        pass1.setAge(23);
-
+        System.out.println("For the following prompts, select your option by typing in the number.");
         List<String> origins = DepartureTable.getOrigins();
         System.out.println("Please select an origin:");
         IntStream.range(0, origins.size())
                 .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, origins.get(i)));
         int choice = getIntRange(1, origins.size());
         String origin = origins.get(choice - 1);
-        pass1.setOrigin(origin);
 
         List<String> destinations = DepartureTable.getDestinations();
         System.out.println("Please select a destination:");
@@ -164,40 +165,36 @@ public class UserInput {
         choice = getIntRange(1, destinations.size());
         String destination = destinations.get(choice - 1);
 
-        List<Calendar> departureDates = DepartureTable.getDateByDestination(destination);
+        List<String> departureDates = DepartureTable.getDateByDestination(destination);
         System.out.println("Please select a departure date:");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i < departureDates.size(); i++) {
-            System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureDates.get(i).getTime()));
+            System.out.printf("\t%d: %s\n", i + 1, departureDates.get(i));
         }
         choice = getIntRange(1, departureDates.size());
-        Calendar departure = departureDates.get(choice - 1);
+        String departure = departureDates.get(choice - 1);
 
-        List<Calendar> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, destination);
+        List<String> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, destination);
         System.out.println("Please select a departure time:");
-        formatter = new SimpleDateFormat("HH:mm");
         for (int i = 0; i < departureTimes.size(); i++) {
-            System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
+            System.out.printf("\t%d: %s\n", i + 1, departureTimes.get(i));
         }
         choice = getIntRange(1, departureTimes.size());
-        departure = departureTimes.get(choice - 1);
+        departure += " " + departureTimes.get(choice - 1);
 
-        Train train = new Train();
-        train.setDestination(destination);
-        train.setDeparture(departure.getTime());
         Train t = DepartureTable.getTrain(departure, destination);
         pass1.setTicketPrice(discount(t.getPrice(), pass1.getAge(), pass1.getGender()));
         pass1.setTrainID(t.getID());
-        pass1.setEta(calculateEta(departure.getTime(), t.getDistance(), new BigDecimal(60)));
-        
+        pass1.setEta(calculateEta(departure, t.getDistance(), new BigDecimal(60)));
+
         saveTicket(pass1);
-        write(filepath, pass1, train);
+        write(filepath, pass1, t);
     }
 
-    public static Date calculateEta(Date departure, BigDecimal distance, BigDecimal speed){
+    public static Date calculateEta(String departure, BigDecimal distance, BigDecimal speed) throws ParseException {
         BigDecimal hour = distance.setScale(2, RoundingMode.HALF_UP).divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
-        cal.setTime(departure);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        cal.setTime(formatter.parse(departure));
         cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
         int minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60)).intValue();
         cal.add(Calendar.MINUTE, minutes);
