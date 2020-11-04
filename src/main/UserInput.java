@@ -211,8 +211,8 @@ public class UserInput {
 
     public static void saveTicket(BoardingPassTrain pass) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-            .addAnnotatedClass(BoardingPassTrain.class)
-            .buildSessionFactory();
+                .addAnnotatedClass(BoardingPassTrain.class)
+                .buildSessionFactory();
 
         try {
             Session session = factory.getCurrentSession();

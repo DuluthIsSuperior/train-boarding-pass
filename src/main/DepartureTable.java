@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,9 +64,5 @@ public abstract class DepartureTable {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return (Train) runQuery(String.format("from Train where departure = '%s' and destination = '%s'",
                 formatter.format(date.getTime()), destination), false).get(0);
-    }
-
-    public static List<Train> getDepartureTable() {
-        return runQuery("from Train", false);
     }
 }
