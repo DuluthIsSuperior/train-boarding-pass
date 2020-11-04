@@ -26,10 +26,10 @@ public abstract class DepartureTable {
         return result;
     }
 
-
     public static List<String> getOrigins() {
         return runQuery("SELECT DISTINCT origin FROM schedule", true);
     }
+
     public static List<String> getDestinations() {
         return runQuery("SELECT DISTINCT destination FROM schedule", true);
     }
