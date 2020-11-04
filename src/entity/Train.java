@@ -12,6 +12,10 @@ public class Train {
     @Column(name = "ID", nullable = false)
     private int ID;
 
+    public int getID() {
+        return ID;
+    }
+
     @Column(name = "destination", length = 20, nullable = false)
     private String destination;
 
@@ -20,6 +24,10 @@ public class Train {
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
 
     public Train() {}
 

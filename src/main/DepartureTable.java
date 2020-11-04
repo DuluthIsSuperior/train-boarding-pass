@@ -5,9 +5,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public abstract class DepartureTable {
@@ -28,27 +29,36 @@ public abstract class DepartureTable {
         return runQuery("SELECT DISTINCT destination FROM schedule", true);
     }
 
-    public static List<Date> getDateByDestination(String destination) {
-        return runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s'", destination), true);
+    public static List<Calendar> getDateByDestination(String destination) {
+        List<Timestamp> dateTime = runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s'", destination), true);
+        List<Calendar> dates = new ArrayList<>();
+        for (Timestamp ts : dateTime) {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(ts.getTime());
+            c.add(Calendar.HOUR, 5);
+            dates.add(c);
+        }
+        return dates;
     }
 
-//    public static ArrayList<String> getDateByDestination(String destination) {
-//        List<Date> dates = runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s'", destination), true);
-//        ArrayList<String> datesOnly = new ArrayList<String>();
-//        for (Date date : dates) {
-//            datesOnly.add(date.toString().split(" ")[0]);
-//        }
-//        return datesOnly;
-//    }
-
-    public static ArrayList<String> getTimeByDateAndDestination(String date, String destination) {
-        List<Date> dates = runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s' AND DATE(departure) = '%s'",
-                destination, date), true);
-        ArrayList<String> timesOnly = new ArrayList<>();
-        for (Date dateObj : dates) {
-            timesOnly.add(dateObj.toString().split(" ")[1]);
+    public static List<Calendar> getTimeByDateAndDestination(Calendar date, String destination) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        List<Timestamp> dateTime = runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s' AND DATE(departure) = '%s'",
+                destination, formatter.format(date.getTime())), true);
+        List<Calendar> times = new ArrayList<>();
+        for (Timestamp ts : dateTime) {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(ts.getTime());
+            c.add(Calendar.HOUR, 5);
+            times.add(c);
         }
-        return timesOnly;
+        return times;
+    }
+
+    public static Train getTrain(Calendar date, String destination) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return (Train) runQuery(String.format("from Train where departure = '%s' and destination = '%s'",
+                formatter.format(date.getTime()), destination), false).get(0);
     }
 
     public static List<Train> getDepartureTable() {

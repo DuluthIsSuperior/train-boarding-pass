@@ -1,6 +1,7 @@
 package main;
 
 import entity.BoardingPassTrain;
+import entity.Train;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -19,7 +20,7 @@ import java.util.Scanner;
 
 
 public class UserInput {
-    private static Scanner getInput = new Scanner(System.in);
+    private static final Scanner getInput = new Scanner(System.in);
 
     private static int getIntRange(int from, int to) {
         while (true) {
@@ -98,7 +99,6 @@ public class UserInput {
     }
 
     public static Date calculateEta(Date departure, int distance, int speed){
-
         int time = distance/speed;
         Calendar cal = new GregorianCalendar();
         cal.setTime(departure);
@@ -119,23 +119,16 @@ public class UserInput {
         return ticketPrice;
     }
 
-    public static void saveTicket (String name, String origin, String destination, Date eta,
-                                   Date departure, String email, String phone, String gender, int age,
-                                   float ticketPrice) {
+    public static void saveTicket(BoardingPassTrain pass) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(BoardingPassTrain.class)
-                .buildSessionFactory();
+            .addAnnotatedClass(BoardingPassTrain.class)
+            .buildSessionFactory();
 
         try {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
-
-            BoardingPassTrain myBoardingPassTrain = new BoardingPassTrain(name, origin, destination, eta,
-                    departure, email, phone, gender, age, ticketPrice);
-            session.save(myBoardingPassTrain);
-
+            session.save(pass);
             session.getTransaction().commit();
-
         } finally {
             factory.close();
         }
