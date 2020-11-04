@@ -20,6 +20,12 @@ import java.util.Scanner;
 public class UserInput {
     private static final Scanner getInput = new Scanner(System.in);
 
+    /**
+     * Gets an integer from the user within the specified range. Keeps asking until a valid integer is received.
+     * @param from starting integer of the range
+     * @param to inclusive ending integer of the range
+     * @return the integer from the user within the given range
+     */
     private static int getIntRange(int from, int to) {
         while (true) {
             try {
@@ -35,8 +41,41 @@ public class UserInput {
         }
     }
 
+    /**
+     * Gets an integer from the user input. Keeps asking until a valid integer is received.
+     * @return an integer from the user input
+     */
     private static int getInt() {
         return getIntRange(Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Checks the format of the given string to see if it's a valid phone number
+     * @param phoneNumber string to parse
+     * @return phone number in (XXX) XXX-XXXX format if valid, otherwise null
+     */
+    public static String parsePhoneNumber(String phoneNumber) {
+        if (phoneNumber.matches("\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}")) {
+            return phoneNumber;
+        } else if (phoneNumber.matches("[0-9]{3}-[0-9]{3}-[0-9]{4}")) {
+            String[] numbers = phoneNumber.split("-");
+            return String.format("(%s) %s-%s", numbers[0], numbers[1], numbers[2]);
+        } else if (phoneNumber.matches("[0-9]{10}")) {
+            return String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
+        }
+        return null;
+    }
+
+    /**
+     * Checks to see if the given string is a valid gender
+     * @param gender string to parse
+     * @return Male or Female if the gender is valid; otherwise null
+     */
+    public static String parseGender(String gender) {
+        if (gender.matches("(M|m)ale|(F|f)emale")) {
+            return String.format("%s%s", gender.substring(0, 1).toUpperCase(), gender.substring(1));
+        }
+        return null;
     }
 
     public static void main(String[] args) throws ParseException {
@@ -60,31 +99,22 @@ public class UserInput {
 
         //*** Phone User Input ***
         System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
-        String pN;
         while (true) {
-            String phoneNumber = getInput.nextLine();
-            if (phoneNumber.matches("\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}")) {
-                pN = phoneNumber;
-                break;
-            } else if (phoneNumber.matches("[0-9]{3}-[0-9]{3}-[0-9]{4}")) {
-                String[] numbers = phoneNumber.split("-");
-                pN = String.format("(%s) %s-%s", numbers[0], numbers[1], numbers[2]);
-                break;
-            } else if (phoneNumber.matches("[0-9]{10}")) {
-                pN = String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
+            String pN = parsePhoneNumber(getInput.nextLine());
+            if (pN != null) {
+                pass1.setPhone(pN);
                 break;
             } else {
-                System.out.print("Sorry, I could not understand your input. Please try again: ");
+                System.out.print("Sorry, I did not understand your input. Please try again: ");
             }
         }
-        pass1.setPhone(pN);
 //        pass1.setPhone("(616) 299-9438");
 
         //*** Gender User Input ***
         System.out.print("Please enter your Gender (Male or Female): ");
         while (true) {
-            String gender = getInput.nextLine();
-            if (gender.matches("(M|m)ale|(F|f)emale")) {
+            String gender = parseGender(getInput.nextLine());
+            if (gender != null) {
                 pass1.setGender(gender);
                 break;
             } else {
@@ -161,6 +191,8 @@ public class UserInput {
             session.beginTransaction();
             session.save(pass);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             factory.close();
         }
