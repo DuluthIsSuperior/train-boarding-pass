@@ -10,12 +10,16 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+import java.time.*;
 import java.util.*;
 import java.util.stream.IntStream;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+
 
 public class UserInput {
     private static final Scanner getInput = new Scanner(System.in);
@@ -40,45 +44,21 @@ public class UserInput {
     }
 
     public static void main(String[] args) throws ParseException {
-        BoardingPassTrain pass1 = new BoardingPassTrain();
         String message = "Welcome to the World Fastest Train";
-        System.out.print("+");
-        IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
-        System.out.printf("\n+%s+\n+", message);
-        IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
-        pass1.setOrigin("Conklin");
+//        System.out.print("+");
+//        IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
+//        System.out.printf("\n+%s+\n+", message);
+//        IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
+        Scanner getInput = new Scanner(System.in);
 
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
-        pass1.setName(getInput.nextLine());
-//        pass1.setName("Kyle Dick");
+        String name = getInput.nextLine();
 
-        //*** Email User Input ***
-        System.out.print("Please enter your Email: ");
-        pass1.setEmail(getInput.nextLine());
-//        pass1.setEmail("snooze@zzz.com");
 
-        //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
-        String pN;
-        while (true) {
-            String phoneNumber = getInput.nextLine();
-            if (phoneNumber.matches("\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}")) {
-                pN = phoneNumber;
-                break;
-            } else if (phoneNumber.matches("[0-9]{3}-[0-9]{3}-[0-9]{4}")) {
-                String[] numbers = phoneNumber.split("-");
-                pN = String.format("(%s) %s-%s", numbers[0], numbers[1], numbers[2]);
-                break;
-            } else if (phoneNumber.matches("[0-9]{10}")) {
-                pN = String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
-                break;
-            } else {
-                System.out.print("Sorry, I could not understand your input. Please try again: ");
-            }
-        }
-        pass1.setPhone(pN);
-//        pass1.setPhone("(616) 299-9438");
+        //*** Origin User Input ***
+        System.out.print("Please enter your Origin: ");
+        String origin = getInput.nextLine();
 
         //*** Gender User Input ***
         System.out.print("Please enter your Gender (Male or Female): ");
@@ -93,35 +73,21 @@ public class UserInput {
         }
 //        pass1.setGender("Male");
 
-        //*** Age User Input ***
-        System.out.print("Please enter your Age: ");
-        pass1.setAge(getInt());
-//        pass1.setAge(23);
+        //Departure User Input
+        System.out.print("Please enter your Departure Date(dd-MM-yyyy HH:mm:ss): ");
+        String date = getInput.nextLine();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date date1 = dateFormat.parse(date);
+        //System.out.println(date1);
 
-        List<String> destinations = DepartureTable.getDestinations();
-        System.out.println("Please select a destination:");
-        IntStream.range(0, destinations.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, destinations.get(i)));
-        int choice = getIntRange(1, destinations.size());
-        String destination = destinations.get(choice - 1);
+        //Set and Calculate ETA
+        Date eta = calculateEta(date1,1000, 120);
+        //System.out.println(eta);
 
-        List<Calendar> departureDates = DepartureTable.getDateByDestination(destination);
-        System.out.println("Please select a departure date:");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        for (int i = 0; i < departureDates.size(); i++) {
-            System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureDates.get(i).getTime()));
-        }
-        choice = getIntRange(1, departureDates.size());
-        Calendar departure = departureDates.get(choice - 1);
 
-        List<Calendar> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, destination);
-        System.out.println("Please select a departure time:");
-        formatter = new SimpleDateFormat("HH:mm");
-        for (int i = 0; i < departureTimes.size(); i++) {
-            System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
-        }
-        choice = getIntRange(1, departureTimes.size());
-        departure = departureTimes.get(choice - 1);
+//        //*** Email User Input ***
+        System.out.print("Please enter your Email: ");
+        String email = getInput.nextLine();
 
         Train t = DepartureTable.getTrain(departure, destination);
         pass1.setTicketPrice(discount(t.getPrice().floatValue(), pass1.getAge(), pass1.getGender()));
@@ -137,6 +103,7 @@ public class UserInput {
         cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
         BigDecimal minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60));
         return cal.getTime();
+
     }
 
     public static float discount(float ticketPrice, int age, String gender) {
@@ -144,7 +111,8 @@ public class UserInput {
             ticketPrice = ticketPrice * 0.5f;
         } else if (age >= 60) {
             ticketPrice = ticketPrice - (ticketPrice * 0.6f);
-        } else if (gender.equals("Female")) {
+        }
+        if (gender.equals("Female")) {
             ticketPrice = ticketPrice - (ticketPrice * 0.25f);
         }
         return ticketPrice;
