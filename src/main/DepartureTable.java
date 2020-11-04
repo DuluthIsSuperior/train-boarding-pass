@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public abstract class DepartureTable {
@@ -41,6 +40,7 @@ public abstract class DepartureTable {
         for (Timestamp ts : dateTime) {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(ts.getTime());
+            c.add(Calendar.HOUR, 5);
             dates.add(c);
         }
         return dates;
@@ -54,6 +54,7 @@ public abstract class DepartureTable {
         for (Timestamp ts : dateTime) {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(ts.getTime());
+            c.add(Calendar.HOUR, 5);
             times.add(c);
         }
         return times;
