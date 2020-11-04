@@ -3,3 +3,4 @@
 /resources/hibernate.cfg.xml
 /out/production/
 *.iml
+src/*.txt
