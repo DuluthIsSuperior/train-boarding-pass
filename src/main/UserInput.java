@@ -109,12 +109,10 @@ public class UserInput {
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
         pass1.setName(getInput.nextLine());
-//        pass1.setName("Kyle Dick");
 
         //*** Email User Input ***
         System.out.print("Please enter your Email: ");
         pass1.setEmail(getInput.nextLine());
-//        pass1.setEmail("snooze@zzz.com");
 
         //*** Phone User Input ***
         System.out.print("Please enter your Phone Number (XXX) XXX-XXXX: ");
@@ -127,7 +125,6 @@ public class UserInput {
                 System.out.print("Sorry, I did not understand your input. Please try again: ");
             }
         }
-//        pass1.setPhone("(616) 299-9438");
 
         //*** Gender User Input ***
         System.out.print("Please enter your Gender (Male or Female): ");
@@ -140,11 +137,15 @@ public class UserInput {
                 System.out.print("Sorry, I could not understand your input. Please try again: ");
             }
         }
-//        pass1.setGender("Male");
 
         //*** Age User Input ***
         System.out.print("Please enter your Age: ");
         pass1.setAge(getInt());
+
+//        pass1.setName("Kyle Dick");
+//        pass1.setEmail("snooze@zzz.com");
+//        pass1.setPhone("(616) 299-9438");
+//        pass1.setGender("Male");
 //        pass1.setAge(23);
 
         List<String> origins = DepartureTable.getOrigins();
