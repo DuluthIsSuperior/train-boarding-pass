@@ -32,40 +32,24 @@ public abstract class DepartureTable {
         return runQuery("SELECT DISTINCT destination FROM schedule", true);
     }
 
-    public static List<Calendar> getDateByDestination(String destination) {
-        List<Timestamp> dateTime = runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s'", destination), true);
-        List<Calendar> dates = new ArrayList<>();
-        for (Timestamp ts : dateTime) {
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(ts.getTime());
-            c.add(Calendar.HOUR, 5);
-            dates.add(c);
+    public static List<String> getDateByDestination(String destination) {
+        List<String> q = new ArrayList<String>();
+        for (Object o : runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s'", destination), true)) {
+            q.add(((String) o).split(" ")[0]);
         }
-        return dates;
+        return q;
     }
 
-    public static List<Calendar> getTimeByDateAndDestination(Calendar date, String destination) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        List<Timestamp> dateTime = runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s' AND DATE(departure) = '%s'",
-                destination, formatter.format(date.getTime())), true);
-        List<Calendar> times = new ArrayList<>();
-        for (Timestamp ts : dateTime) {
-            System.out.println(ts.toLocalDateTime());
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(ts.getTime());
-            c.add(Calendar.HOUR, 5);
-            if (c.getTimeZone().getRawOffset() != -18000000) {
-                int hours = -18000000 - c.getTimeZone().getRawOffset();
-                c.add(Calendar.HOUR, -(hours / 3600000));
-            }
-            times.add(c);
+    public static List<String> getTimeByDateAndDestination(String date, String destination) {
+        List<String> q = new ArrayList<String>();
+        for (Object o : runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s' AND SUBSTRING(departure, 1, 10) = '%s'", destination, date), true)) {
+            q.add(((String) o).split(" ")[1].substring(0, 5));
         }
-        return times;
+        return q;
     }
 
-    public static Train getTrain(Calendar date, String destination) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return (Train) runQuery(String.format("from Train where departure = '%s' and destination = '%s'",
-                formatter.format(date.getTime()), destination), false).get(0);
+    public static Train getTrain(String departure, String destination) {
+        return (Train) runQuery(String.format("from Train where departure = '%s:00' and destination = '%s'",
+                departure, destination), false).get(0);
     }
 }

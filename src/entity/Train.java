@@ -32,13 +32,13 @@ public class Train {
     }
 
     @Column(name = "departure", nullable = false)
-    private Date departure;
+    private String departure;
 
-    public Date getDeparture() {
+    public String getDeparture() {
         return departure;
     }
 
-    public void setDeparture(Date departure) {
+    public void setDeparture(String departure) {
         this.departure = departure;
     }
 

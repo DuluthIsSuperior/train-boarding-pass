@@ -1,5 +1,6 @@
 CREATE DATABASE IF NOT EXISTS train_boarding_pass;
 USE train_boarding_pass;
+SET GLOBAL time_zone = "-05:00";
 
 DROP TABLE boarding_pass;
 DROP TABLE schedule;
@@ -7,7 +8,7 @@ CREATE TABLE IF NOT EXISTS schedule(
 	ID INT AUTO_INCREMENT PRIMARY KEY,
     origin VARCHAR(20) NOT NULL,
     destination VARCHAR(20) NOT NULL,
-    departure DATETIME NOT NULL,
+    departure VARCHAR(19) NOT NULL,
     distance DECIMAL(5, 2) NOT NULL,
     price DECIMAL(5, 2) NOT NULL # 3 digits before the decimal, 2 after
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -27,7 +28,6 @@ CREATE TABLE IF NOT EXISTS boarding_pass (
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   train_id INT NOT NULL,
   name varchar(45) DEFAULT NULL,
-  origin varchar(45) DEFAULT NULL,
   eta varchar(45) DEFAULT NULL,
   email varchar(45) DEFAULT NULL,
   phone varchar(45) DEFAULT NULL,
@@ -36,4 +36,3 @@ CREATE TABLE IF NOT EXISTS boarding_pass (
   ticket_price float DEFAULT NULL,
   FOREIGN KEY (train_id) REFERENCES schedule(ID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
