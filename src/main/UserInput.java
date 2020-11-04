@@ -32,7 +32,7 @@ public class UserInput {
         try {
             Files.write(filepath, ("Your name: " + name + " Age: " + age + " Gender: " + gender + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("From: " + origin + " To: " + destination + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("Depature: " + departure + "Arrival: " + eta + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.write(filepath, ("Depature: "  + departure + " Arrival: " + eta + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Email: " + email + " Cellphone: " + phone + "\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.write(filepath, ("Ticket Price: " + ticketPrice).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
@@ -64,6 +64,7 @@ public class UserInput {
     }
 
     public static void main(String[] args) throws ParseException {
+
 
         BoardingPassTrain pass1 = new BoardingPassTrain();
         String message = "Welcome to the World Fastest Train";
@@ -120,6 +121,18 @@ public class UserInput {
             System.out.printf("\t%d: %s\n", i + 1, formatter.format(departureTimes.get(i).getTime()));
         }
         pass1.setDeparture(departure.getTime());
+
+        pass1.setTicketPrice(discount(24, pass1.getAge(), pass1.getGender()));
+        pass1.setEta(calculateEta(pass1.getDeparture(), 600, 352));
+        pass1.setOrigin("Atlanta");
+        
+        saveTicket(pass1.getName(), pass1.getOrigin(), pass1.getDestination(), pass1.getEta(),
+                   pass1.getDeparture(), pass1.getEmail(), pass1.getPhone(), pass1.getGender(), pass1.getAge(),
+                   pass1.getTicketPrice());
+
+        write(filepath, pass1.getName(), pass1.getOrigin(), pass1.getDestination(), pass1.getEta(),
+                pass1.getDeparture(), pass1.getEmail(), pass1.getPhone(), pass1.getGender(), pass1.getAge(),
+                pass1.getTicketPrice());
     }
 
     public static Date calculateEta(Date departure, int distance, int speed){
@@ -143,9 +156,9 @@ public class UserInput {
         return ticketPrice;
     }
 
-    public static void saveTicket (String name, String origin, String destination, Date eta,
-                                   Date departure, String email, String phone, String gender, int age,
-                                   float ticketPrice) {
+    public static void saveTicket(String name, String origin, String destination, Date eta,
+                                  Date departure, String email, String phone, String gender, int age,
+                                  float ticketPrice) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
                 .addAnnotatedClass(BoardingPassTrain.class)
                 .buildSessionFactory();
