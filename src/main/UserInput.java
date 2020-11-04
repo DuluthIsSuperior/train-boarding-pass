@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -58,9 +60,18 @@ public class UserInput {
         System.out.print("Please enter your Origin: ");
         String origin = getInput.nextLine();
 
-        //*** Destination User Input ***
-        System.out.print("Please enter your Destination: ");
-        String destination = getInput.nextLine();
+        //*** Gender User Input ***
+        System.out.print("Please enter your Gender (Male or Female): ");
+        while (true) {
+            String gender = getInput.nextLine();
+            if (gender.matches("(M|m)ale|(F|f)emale")) {
+                pass1.setGender(gender);
+                break;
+            } else {
+                System.out.print("Sorry, I could not understand your input. Please try again: ");
+            }
+        }
+//        pass1.setGender("Male");
 
         //Departure User Input
         System.out.print("Please enter your Departure Date(dd-MM-yyyy HH:mm:ss): ");
@@ -78,31 +89,19 @@ public class UserInput {
         System.out.print("Please enter your Email: ");
         String email = getInput.nextLine();
 
-//
-//        //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number: ");
-        String phoneNumber = getInput.nextLine();
-
-//        //*** Gender User Input ***
-        System.out.print("Please enter your Gender: ");
-        String gender = getInput.nextLine();
-//
-//        //*** Age User Input ***
-        System.out.print("Please enter your Age: ");
-        int age = getInput.nextInt();
-
-        //*** TicketPrice ***
-        float ticketPrice = (float) 200.00;
-        float discount = discount(ticketPrice, age, gender);
-
-        saveTicket(name, origin, destination ,eta,date1,email,phoneNumber,gender,age, discount);
+        Train t = DepartureTable.getTrain(departure, destination);
+        pass1.setTicketPrice(discount(t.getPrice().floatValue(), pass1.getAge(), pass1.getGender()));
+        pass1.setTrainID(t.getID());
+        calculateEta(departure.getTime(), t.getDistance(), new BigDecimal(60));
+        saveTicket(pass1);
     }
 
-    public static Date calculateEta(Date departure, int distance, int speed){
-        int time = distance/speed;
+    public static Date calculateEta(Date departure, BigDecimal distance, BigDecimal speed){
+        BigDecimal hour = distance.divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
         cal.setTime(departure);
-        cal.add(Calendar.HOUR_OF_DAY,time);
+        cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
+        BigDecimal minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60));
         return cal.getTime();
 
     }
