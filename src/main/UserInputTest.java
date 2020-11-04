@@ -1,26 +1,30 @@
 package main;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserInputTest {
 
-    @org.junit.jupiter.api.BeforeEach
+    @BeforeEach
     void setUp() {
     }
 
-    @org.junit.jupiter.api.AfterEach
+    @AfterEach
     void tearDown() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void calculateEta() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void discount() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void saveTicket() {
     }
 }
