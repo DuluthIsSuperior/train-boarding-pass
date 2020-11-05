@@ -200,6 +200,7 @@ public class UserInput {
         cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
         int minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60)).intValue();
         cal.add(Calendar.MINUTE, minutes);
+        System.out.println(cal.getTime());
         return cal.getTime();
     }
 
