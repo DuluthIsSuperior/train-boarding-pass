@@ -19,8 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="">
+    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="More Unit Tests - Herman">
       <change beforePath="$PROJECT_DIR$/out/test/train-boarding-pass/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/train-boarding-pass/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/BoardingPassTrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/BoardingPassTrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/UserInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/UserInput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/UserInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/UserInputTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,16 +121,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserInputTest.testsetName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="train-boarding-pass" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="main" />
+      <option name="MAIN_CLASS_NAME" value="main.UserInputTest" />
+      <option name="METHOD_NAME" value="testsetName" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.TestConnection" />
       <item itemvalue="Application.UserInput" />
       <item itemvalue="JUnit.UserInputTest" />
+      <item itemvalue="JUnit.UserInputTest.testsetName" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.UserInputTest" />
-        <item itemvalue="Application.TestConnection" />
+        <item itemvalue="JUnit.UserInputTest.testsetName" />
         <item itemvalue="Application.UserInput" />
+        <item itemvalue="Application.TestConnection" />
       </list>
     </recent_temporary>
   </component>
@@ -141,6 +161,21 @@
       <option name="presentableId" value="Default" />
       <updated>1604416399225</updated>
     </task>
+    <task id="LOCAL-00001" summary="Boarding Pass Train Test - Herman">
+      <created>1604546760125</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1604546760126</updated>
+    </task>
+    <task id="LOCAL-00002" summary="More Unit Tests - Herman">
+      <created>1604588620974</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604588620979</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -155,6 +190,11 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Boarding Pass Train Test - Herman" />
+    <MESSAGE value="More Unit Tests - Herman" />
+    <option name="LAST_COMMIT_MESSAGE" value="More Unit Tests - Herman" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="121" y="0" key="#Project_Structure" timestamp="1604522875214">
       <screen x="0" y="0" width="1280" height="680" />
@@ -164,30 +204,54 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1604529580594" />
+    <state x="93" y="93" width="1095" height="495" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1604602933352">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="93" y="93" width="1095" height="495" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1280.680@0.0.1280.680" timestamp="1604602933352" />
     <state x="348" y="82" key="FileChooserDialogImpl" timestamp="1604430043926">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="348" y="82" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1604430043926" />
-    <state width="1237" height="141" key="GridCell.Tab.0.bottom" timestamp="1604529429723">
+    <state width="1237" height="139" key="GridCell.Tab.0.bottom" timestamp="1604603064091">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604529429723" />
-    <state width="1237" height="141" key="GridCell.Tab.0.center" timestamp="1604529429723">
+    <state width="1237" height="139" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604603064091" />
+    <state width="1237" height="139" key="GridCell.Tab.0.center" timestamp="1604603064091">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604529429723" />
-    <state width="1237" height="141" key="GridCell.Tab.0.left" timestamp="1604529429723">
+    <state width="1237" height="139" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604603064091" />
+    <state width="1237" height="139" key="GridCell.Tab.0.left" timestamp="1604603064090">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604529429723" />
-    <state width="1237" height="141" key="GridCell.Tab.0.right" timestamp="1604529429723">
+    <state width="1237" height="139" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604603064090" />
+    <state width="1237" height="139" key="GridCell.Tab.0.right" timestamp="1604603064091">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604529429723" />
+    <state width="1237" height="139" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604603064091" />
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1604532856508">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604532856508" />
+    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1604532856507">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1604532856507" />
+    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1604532856507">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1604532856507" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1604532856508">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1604532856508" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1604529555648">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="121" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1604529555648" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1604588616145">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1604588616145" />
     <state x="451" y="118" key="chooseDestDirectoryDialog" timestamp="1604507135338">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -200,9 +264,17 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="412" y="111" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1280.680@0.0.1280.680" timestamp="1604507135366" />
+    <state x="342" y="98" key="refactoring.ChangeSignatureDialog" timestamp="1604544749590">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="342" y="98" key="refactoring.ChangeSignatureDialog/0.0.1280.680@0.0.1280.680" timestamp="1604544749590" />
     <state x="297" y="151" key="run.anything.popup" timestamp="1604432292537">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="297" y="151" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1604432292537" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1604542046650">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1604542046650" />
   </component>
 </project>
