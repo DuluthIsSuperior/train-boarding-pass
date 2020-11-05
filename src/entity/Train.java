@@ -20,6 +20,14 @@ public class Train {
     @Column(name = "origin", length = 20, nullable = false)
     private String origin;
 
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
     @Column(name = "destination", length = 20, nullable = false)
     private String destination;
 
