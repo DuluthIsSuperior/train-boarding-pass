@@ -2,13 +2,11 @@ package main;
 
 import entity.BoardingPassTrain;
 import entity.Train;
-import javassist.Loader;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -103,7 +101,7 @@ public class UserInput {
      * @return Male or Female if the gender is valid; otherwise null
      */
     public static String parseGender(String gender) {
-        if (gender.matches("(M|m)ale|(F|f)emale")) {
+        if (gender.matches("[Mm]ale|[Ff]emale")) {
             return String.format("%s%s", gender.substring(0, 1).toUpperCase(), gender.substring(1));
         }
         return null;
