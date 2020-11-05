@@ -6,11 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -42,45 +38,58 @@ class UserInputTest {
     void testsetId(){
         test.setId(5);
         assertEquals(5, test.getId());
+        assertSame(5, test.getId());
     }
 
     @Test
     void testsetName(){
         test.setName("Herman");
         assertEquals("Herman", test.getName());
+        assertSame("Herman", test.getName());
     }
 
     @Test
     void testsetEmail(){
         test.setEmail("hbreck@gnail.com");
         assertEquals("hbreck@gnail.com", test.getEmail());
+        assertSame("hbreck@gnail.com", test.getEmail());
+
     }
 
     @Test
     void testsetPhone(){
         test.setPhone("(901) 241-2672");
         assertEquals("(901) 241-2672", test.getPhone());
+        assertSame("(901) 241-2672", test.getPhone());
+
     }
 
     @Test
     void testsetGender(){
         test.setGender("Male");
         assertEquals("Male", test.getGender());
+        assertSame("Male", test.getGender());
     }
 
     @Test
     void testsetAge(){
         test.setAge(31);
         assertEquals(31, test.getAge());
+        assertSame(31, test.getAge());
     }
 
     @Test
     void testobjectTicketPrice(){
         BigDecimal price = new BigDecimal(500.00);
         BigDecimal price1 = new BigDecimal(6000.00);
+        BigDecimal expected = BigDecimal.valueOf(500.00);
         test.setTicketPrice(price);
         test1.setTicketPrice(price1);
         assertNotEquals(test, test1);
+        //assertEquals(500, test.getTicketPrice());
+        assertSame(price, test.getTicketPrice());
+        assertTrue(BigDecimal.valueOf(500.00).compareTo(test.getTicketPrice()) == 0);
+        assertTrue(BigDecimal.valueOf(500.000000).compareTo(test.getTicketPrice()) == 0);
     }
 
     @Test
