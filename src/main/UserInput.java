@@ -13,14 +13,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.IntStream;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Scanner;
 
 public class UserInput {
     private static final Scanner getInput = new Scanner(System.in);
@@ -190,11 +185,6 @@ public class UserInput {
         System.out.print("Please enter your Age: ");
         pass1.setAge(getInt());
 
-//        pass1.setName("Kyle Dick");
-//        pass1.setEmail("snooze@zzz.com");
-//        pass1.setPhone("(616) 299-9438");
-//        pass1.setGender("Male");
-//        pass1.setAge(23);
 
         System.out.println("For the following prompts, select your option by typing in the number.");
         List<String> origins = DepartureTable.getOrigins();
@@ -233,10 +223,13 @@ public class UserInput {
         pass1.setTrainID(t.getID());
         pass1.setEta(calculateEta(departure, t.getDistance(), new BigDecimal(60)));
 
+        //*** Save Ticket ***
         saveTicket(pass1);
+
+        //*** Print Ticket to Text File ***
         write(filepath, pass1, t);
     }
-
+    //*** Calculates the ETA ***zA
     public static Date calculateEta(String departure, BigDecimal distance, BigDecimal speed) throws ParseException {
         BigDecimal hour = distance.setScale(2, RoundingMode.HALF_UP).divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
