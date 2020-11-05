@@ -78,10 +78,8 @@ public class UserInput {
         BoardingPassTrain pass1 = new BoardingPassTrain();
         DepartureTable.init();  // allows hibernate to print whatever garbage it needs to to the console without hiding our print statements
         String message = "Welcome to the World Fastest Train";
-        System.out.print("+");
-        IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
-        System.out.printf("\n+%s+\n+", message);
-        IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
+        System.out.println(new StringBuilder("+").append("-".repeat(message.length())).append("+\n+")
+                .append(message).append("+\n+").append("-".repeat(message.length())).append("+"));
 
 //        //*** Name User Input ***
 //        System.out.print("Please enter your Name: ");
@@ -145,17 +143,15 @@ public class UserInput {
 
         List<String> departureDates = DepartureTable.getDateByDestination(destination);
         System.out.println("Please select a departure date:");
-        for (int i = 0; i < departureDates.size(); i++) {
-            System.out.printf("\t%d: %s\n", i + 1, departureDates.get(i));
-        }
+        IntStream.range(0, departureDates.size())
+                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureDates.get(i)));
         choice = getIntRange(1, departureDates.size());
         String departure = departureDates.get(choice - 1);
 
         List<String> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, destination);
         System.out.println("Please select a departure time:");
-        for (int i = 0; i < departureTimes.size(); i++) {
-            System.out.printf("\t%d: %s\n", i + 1, departureTimes.get(i));
-        }
+        IntStream.range(0, departureTimes.size())
+                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureTimes.get(i)));
         choice = getIntRange(1, departureTimes.size());
         departure += " " + departureTimes.get(choice - 1);
 
@@ -163,7 +159,7 @@ public class UserInput {
         t.setOrigin(origin);
         pass1.setTicketPrice(discount(t.getPrice(), pass1.getAge(), pass1.getGender()));
         pass1.setTrainID(t.getID());
-        pass1.setEta(calculateEta(departure, t.getDistance(), new BigDecimal(60)));
+        pass1.setEta(calculateEta(departure, t.getDistance(), 60));
 
         //*** Save Ticket ***
         saveTicket(pass1);
@@ -171,9 +167,10 @@ public class UserInput {
         //*** Print Ticket to Text File ***
         BoardingPassWriter.write(pass1, t);
     }
+
     //*** Calculates the ETA ***
-    public static Date calculateEta(String departure, BigDecimal distance, BigDecimal speed) {
-        BigDecimal hour = distance.setScale(2, RoundingMode.HALF_UP).divide(speed, RoundingMode.HALF_UP);
+    public static Date calculateEta(String departure, BigDecimal distance, int speed) {
+        MyBigDecimal hour = new MyBigDecimal(distance).divide(speed, 2);
         Calendar cal = new GregorianCalendar();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = new Date(0);
@@ -185,21 +182,21 @@ public class UserInput {
         }
         cal.setTime(date);
         cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
-        int minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60)).intValue();
+        int minutes = hour.subtract(hour.intValue()).multiply(60).intValue();
         cal.add(Calendar.MINUTE, minutes);
-        System.out.println(cal.getTime());
         return cal.getTime();
     }
 
     public static BigDecimal discount(BigDecimal ticketPrice, int age, String gender) {
+        MyBigDecimal price = new MyBigDecimal(ticketPrice);
         if (age <= 12) {
-            ticketPrice = ticketPrice.multiply(new BigDecimal("0.5"));
+            price = price.multiply(0.5);
         } else if (age >= 60) {
-            ticketPrice = ticketPrice.subtract(ticketPrice.multiply(new BigDecimal("0.6")));
+            price = price.subtract(price.multiply(0.6));
         } else if (gender.equals("Female")) {
-            ticketPrice = ticketPrice.subtract(ticketPrice.multiply(new BigDecimal("0.25")));
+            price = price.subtract(price.multiply(0.25));
         }
-        return ticketPrice.setScale(2, RoundingMode.HALF_UP);
+        return price.round(2);
     }
 
     public static void saveTicket(BoardingPassTrain pass) {
