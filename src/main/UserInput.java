@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -63,97 +62,126 @@ public class UserInput {
     }
 
     /**
+     * Looks through the list of given strings to make sure they are in the correct date format.
+     * @param dates list of strings to analyze
+     * @return dateTimes if all Strings are valid dates in the format yyyy-MM-dd, else null
+     */
+    public static List<String> validateDates(List<String> dates) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (String dateTime : dates) {
+            try {
+                formatter.parse(dateTime);
+            } catch (ParseException e) {
+                return null;
+            }
+        }
+        return dates;
+    }
+
+    /**
+     * Looks through the list of given strings to make sure they are in the correct time format.
+     * @param times list of strings to analyze
+     * @return dateTimes if all Strings are valid times in the format HH:mm:ss, else null
+     */
+    public static List<String> validateTimes(List<String> times) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        for (String dateTime : times) {
+            try {
+                formatter.parse(dateTime);
+            } catch (ParseException e) {
+                return null;
+            }
+        }
+        return times;
+    }
+
+    /**
      * Checks to see if the given string is a valid gender
      * @param gender string to parse
      * @return Male or Female if the gender is valid; otherwise null
      */
     public static String parseGender(String gender) {
-        if (gender.matches("(M|m)ale|(F|f)emale")) {
+        if (gender.matches("[Mm]ale|[Ff]emale")) {
             return String.format("%s%s", gender.substring(0, 1).toUpperCase(), gender.substring(1));
+        } else if (gender.matches("[Mm]")) {
+            return "Male";
+        } else if (gender.matches("[Ff]")) {
+            return "Female";
         }
         return null;
+    }
+
+    public static <T> T printListGetInt(String message, List<T> list) {
+        System.out.println(message);
+        if (list == null) {
+            System.out.println("A database error has occurred. Please try again later.");
+            System.exit(1);
+        }
+        IntStream.range(0, list.size())
+                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, list.get(i)));
+        int choice = getIntRange(1, list.size());
+        return list.get(choice - 1);
     }
 
     public static void main(String[] args) {
         BoardingPassTrain pass1 = new BoardingPassTrain();
         DepartureTable.init();  // allows hibernate to print whatever garbage it needs to to the console without hiding our print statements
         String message = "Welcome to the World Fastest Train";
-        System.out.println(new StringBuilder("+").append("-".repeat(message.length())).append("+\n+")
-                .append(message).append("+\n+").append("-".repeat(message.length())).append("+"));
+        System.out.println("+" + "-".repeat(message.length()) + "+\n+" + message + "+\n+" + "-".repeat(message.length()) + "+");
 
-//        //*** Name User Input ***
-//        System.out.print("Please enter your Name: ");
-//        pass1.setName(getInput.nextLine());
-//
-//        //*** Email User Input ***
-//        System.out.print("Please enter your Email: ");
-//        pass1.setEmail(getInput.nextLine());
-//
-//        //*** Phone User Input ***
-//        System.out.print("Please enter your Phone Number: ");
-//        while (true) {
-//            String pN = parsePhoneNumber(getInput.nextLine());
-//            if (pN != null) {
-//                pass1.setPhone(pN);
-//                break;
-//            } else {
-//                getInput.next();
-//                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
-//                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
-//            }
-//        }
-//
-//        //*** Gender User Input ***
-//        System.out.print("Please enter your Gender (Male or Female): ");
-//        while (true) {
-//            String gender = parseGender(getInput.nextLine());
-//            if (gender != null) {
-//                pass1.setGender(gender);
-//                break;
-//            } else {
-//                getInput.next();
-//                System.out.print("Sorry, I could not understand your input. Please try again: ");
-//            }
-//        }
-//
-//        //*** Age User Input ***
-//        System.out.print("Please enter your Age: ");
-//        pass1.setAge(getInt());
+        //*** Name User Input ***
+        System.out.print("Please enter your Name: ");
+        pass1.setName(getInput.nextLine());
 
-        pass1.setName("Kyle Dick");
-        pass1.setEmail("snooze@zzz.com");
-        pass1.setPhone("(616) 932-1023");
-        pass1.setGender("Male");
-        pass1.setAge(23);
+        //*** Email User Input ***
+        System.out.print("Please enter your Email: ");
+        pass1.setEmail(getInput.nextLine());
+
+        //*** Phone User Input ***
+        System.out.print("Please enter your Phone Number: ");
+        while (true) {
+            String pN = parsePhoneNumber(getInput.nextLine());
+            if (pN != null) {
+                pass1.setPhone(pN);
+                break;
+            } else {
+                getInput.next();
+                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
+                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
+            }
+        }
+
+        //*** Gender User Input ***
+        System.out.print("Please enter your Gender (Male or Female): ");
+        while (true) {
+            String gender = parseGender(getInput.nextLine());
+            if (gender != null) {
+                pass1.setGender(gender);
+                break;
+            } else {
+                getInput.next();
+                System.out.print("Sorry, I could not understand your input. Please try again: ");
+            }
+        }
+
+        //*** Age User Input ***
+        System.out.print("Please enter your Age: ");
+        pass1.setAge(getInt());
+
+//        pass1.setName("Kyle Dick");
+//        pass1.setEmail("snooze@zzz.com");
+//        pass1.setPhone("(616) 932-1023");
+//        pass1.setGender("Male");
+//        pass1.setAge(23);
 
         System.out.println("For the following prompts, select your option by typing in the number.");
-        List<String> origins = DepartureTable.getOrigins();
-        System.out.println("Please select an origin:");
-        IntStream.range(0, origins.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, origins.get(i)));
-        int choice = getIntRange(1, origins.size());
-        String origin = origins.get(choice - 1);
-
-        List<String> destinations = DepartureTable.getDestinations();
-        System.out.println("Please select a destination:");
-        IntStream.range(0, destinations.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, destinations.get(i)));
-        choice = getIntRange(1, destinations.size());
-        String destination = destinations.get(choice - 1);
-
-        List<String> departureDates = DepartureTable.getDateByDestination(destination);
-        System.out.println("Please select a departure date:");
-        IntStream.range(0, departureDates.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureDates.get(i)));
-        choice = getIntRange(1, departureDates.size());
-        String departure = departureDates.get(choice - 1);
-
-        List<String> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, destination);
-        System.out.println("Please select a departure time:");
-        IntStream.range(0, departureTimes.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureTimes.get(i)));
-        choice = getIntRange(1, departureTimes.size());
-        departure += " " + departureTimes.get(choice - 1);
+        String origin = printListGetInt("Please select an origin:", DepartureTable.getOrigins());
+        String destination = printListGetInt("Please select a destination:", DepartureTable.getDestinations());
+        String departure = printListGetInt("Please select a departure date:",
+                validateDates(DepartureTable.getDateByDestination(destination)));
+        departure += " " + printListGetInt("Please select a departure time:",
+                validateTimes(DepartureTable.getTimeByDateAndDestination(departure, destination))
+        );
 
         Train t = DepartureTable.getTrain(departure, destination);
         t.setOrigin(origin);
@@ -200,19 +228,16 @@ public class UserInput {
     }
 
     public static void saveTicket(BoardingPassTrain pass) {
-        SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(BoardingPassTrain.class)
-                .buildSessionFactory();
 
-        try {
+        try (SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
+                .addAnnotatedClass(BoardingPassTrain.class)
+                .buildSessionFactory()) {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
             session.save(pass);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            factory.close();
         }
     }
 }

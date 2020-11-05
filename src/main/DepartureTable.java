@@ -37,7 +37,7 @@ public abstract class DepartureTable {
     }
 
     public static List<String> getDateByDestination(String destination) {
-        List<String> q = new ArrayList<String>();
+        List<String> q = new ArrayList<>();
         for (Object o : runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s'", destination), true)) {
             q.add(((String) o).split(" ")[0]);
         }
@@ -45,7 +45,7 @@ public abstract class DepartureTable {
     }
 
     public static List<String> getTimeByDateAndDestination(String date, String destination) {
-        List<String> q = new ArrayList<String>();
+        List<String> q = new ArrayList<>();
         for (Object o : runQuery(String.format("SELECT departure FROM schedule WHERE destination = '%s' AND SUBSTRING(departure, 1, 10) = '%s'", destination, date), true)) {
             q.add(((String) o).split(" ")[1].substring(0, 5));
         }
