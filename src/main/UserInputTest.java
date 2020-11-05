@@ -1,20 +1,30 @@
 package main;
 
+import entity.BoardingPassTrain;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserInputTest {
     UserInput user;
+    BoardingPassTrain test;
+    BoardingPassTrain test1;
+
     @BeforeEach
     void setUp() {
         user = new UserInput();
+        test = new BoardingPassTrain();
+        test1 = new BoardingPassTrain();
     }
 
     @AfterEach
@@ -24,6 +34,65 @@ class UserInputTest {
     @Test
     void calculateEta() throws ParseException {
         //assertEquals("Thu Nov 05 18:07:00 CST 2020", user.calculateEta("2020-11-05 15:00", BigDecimal.valueOf(187.99),BigDecimal.valueOf(60)));
+    }
+
+    @Test
+    void testsetId(){
+        test.setId(5);
+        assertEquals(5, test.getId());
+    }
+
+    @Test
+    void testsetName(){
+        test.setName("Herman");
+        assertEquals("Herman", test.getName());
+    }
+
+    @Test
+    void testsetEmail(){
+        test.setEmail("hbreck@gnail.com");
+        assertEquals("hbreck@gnail.com", test.getEmail());
+    }
+
+    @Test
+    void testsetPhone(){
+        test.setPhone("(901) 241-2672");
+        assertEquals("(901) 241-2672", test.getPhone());
+    }
+
+    @Test
+    void testsetGender(){
+        test.setGender("Male");
+        assertEquals("Male", test.getGender());
+    }
+
+    @Test
+    void testsetAge(){
+        test.setAge(31);
+        assertEquals(31, test.getAge());
+    }
+
+    @Test
+    void testobjectTicketPrice(){
+        BigDecimal price = new BigDecimal(500.00);
+        BigDecimal price1 = new BigDecimal(6000.00);
+        test.setTicketPrice(price);
+        test1.setTicketPrice(price1);
+        assertNotEquals(test, test1);
+    }
+
+    @Test
+    void testEtaObject(){
+        for(int i = 0; i < 50; i++ ){
+
+            Date date = new Date(2020, 11, 4);
+            Date date1 = new Date(2020, 11, 4);
+
+            test.setEta(date);
+            test1.setEta(date1);
+            assertNotEquals(test, test1);
+
+        }
     }
 
 
