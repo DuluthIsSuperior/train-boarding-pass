@@ -8,19 +8,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.stream.IntStream;
 
 public abstract class BoardingPassWriter {
     private static String centerString(int n, String str) {
         float nn = (n - 2 - str.length()) / 2.0F;
-        StringBuilder line = new StringBuilder("#");
-        IntStream.range(0, (int) nn).forEach(i -> line.append(" "));
-        line.append(str);
+        StringBuilder line = new StringBuilder("#").append(" ".repeat((int) nn)).append(str);
         if (nn % 1 != 0) {
             nn = nn + 1;
         }
-        IntStream.range(0, (int) nn).forEach(i -> line.append(" "));
-        line.append("#");
+        line.append(" ".repeat((int) nn)).append("#");
         return line.toString();
     }
 
