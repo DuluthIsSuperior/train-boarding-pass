@@ -65,19 +65,36 @@ public class UserInput {
 
     /**
      * Looks through the list of given strings to make sure they are in the correct date format.
-     * @param dateTimes list of strings to analyze
-     * @return dateTimes if all Strings are valid dates, else null
+     * @param dates list of strings to analyze
+     * @return dateTimes if all Strings are valid dates in the format yyyy-MM-dd, else null
      */
-    public static List<String> validateDates(List<String> dateTimes) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (String dateTime : dateTimes) {
+    public static List<String> validateDates(List<String> dates) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (String dateTime : dates) {
             try {
                 formatter.parse(dateTime);
             } catch (ParseException e) {
                 return null;
             }
         }
-        return dateTimes;
+        return dates;
+    }
+
+    /**
+     * Looks through the list of given strings to make sure they are in the correct time format.
+     * @param times list of strings to analyze
+     * @return dateTimes if all Strings are valid times in the format HH:mm:ss, else null
+     */
+    public static List<String> validateTimes(List<String> times) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        for (String dateTime : times) {
+            try {
+                formatter.parse(dateTime);
+            } catch (ParseException e) {
+                return null;
+            }
+        }
+        return times;
     }
 
     /**
@@ -90,6 +107,18 @@ public class UserInput {
             return String.format("%s%s", gender.substring(0, 1).toUpperCase(), gender.substring(1));
         }
         return null;
+    }
+
+    public static <T> T printListGetInt(String message, List<T> list) {
+        System.out.println(message);
+        if (list == null) {
+            System.out.println("A database error has occurred. Please try again later.");
+            System.exit(1);
+        }
+        IntStream.range(0, list.size())
+                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, list.get(i)));
+        int choice = getIntRange(1, list.size());
+        return list.get(choice - 1);
     }
 
     public static void main(String[] args) {
@@ -145,36 +174,13 @@ public class UserInput {
         pass1.setAge(23);
 
         System.out.println("For the following prompts, select your option by typing in the number.");
-        List<String> origins = DepartureTable.getOrigins();
-        System.out.println("Please select an origin:");
-        IntStream.range(0, origins.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, origins.get(i)));
-        int choice = getIntRange(1, origins.size());
-        String origin = origins.get(choice - 1);
-
-        List<String> destinations = DepartureTable.getDestinations();
-        System.out.println("Please select a destination:");
-        IntStream.range(0, destinations.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, destinations.get(i)));
-        choice = getIntRange(1, destinations.size());
-        String destination = destinations.get(choice - 1);
-
-        List<String> departureDates = validateDates(DepartureTable.getDateByDestination(destination));
-        if (departureDates == null) {
-            System.out.println("A database error has occurred. Please try again later.");
-        }
-        System.out.println("Please select a departure date:");
-        IntStream.range(0, departureDates.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureDates.get(i)));
-        choice = getIntRange(1, departureDates.size());
-        String departure = departureDates.get(choice - 1);
-
-        List<String> departureTimes = DepartureTable.getTimeByDateAndDestination(departure, destination);
-        System.out.println("Please select a departure time:");
-        IntStream.range(0, departureTimes.size())
-                .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureTimes.get(i)));
-        choice = getIntRange(1, departureTimes.size());
-        departure += " " + departureTimes.get(choice - 1);
+        String origin = printListGetInt("Please select an origin:", DepartureTable.getOrigins());
+        String destination = printListGetInt("Please select a destination:", DepartureTable.getDestinations());
+        String departure = printListGetInt("Please select a departure date:",
+                validateDates(DepartureTable.getDateByDestination(destination)));
+        departure += " " + printListGetInt("Please select a departure time:",
+                validateTimes(DepartureTable.getTimeByDateAndDestination(departure, destination))
+        );
 
         Train t = DepartureTable.getTrain(departure, destination);
         t.setOrigin(origin);
