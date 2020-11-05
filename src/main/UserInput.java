@@ -128,50 +128,50 @@ public class UserInput {
         System.out.println(new StringBuilder("+").append("-".repeat(message.length())).append("+\n+")
                 .append(message).append("+\n+").append("-".repeat(message.length())).append("+"));
 
-//        //*** Name User Input ***
-//        System.out.print("Please enter your Name: ");
-//        pass1.setName(getInput.nextLine());
-//
-//        //*** Email User Input ***
-//        System.out.print("Please enter your Email: ");
-//        pass1.setEmail(getInput.nextLine());
-//
-//        //*** Phone User Input ***
-//        System.out.print("Please enter your Phone Number: ");
-//        while (true) {
-//            String pN = parsePhoneNumber(getInput.nextLine());
-//            if (pN != null) {
-//                pass1.setPhone(pN);
-//                break;
-//            } else {
-//                getInput.next();
-//                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
-//                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
-//            }
-//        }
-//
-//        //*** Gender User Input ***
-//        System.out.print("Please enter your Gender (Male or Female): ");
-//        while (true) {
-//            String gender = parseGender(getInput.nextLine());
-//            if (gender != null) {
-//                pass1.setGender(gender);
-//                break;
-//            } else {
-//                getInput.next();
-//                System.out.print("Sorry, I could not understand your input. Please try again: ");
-//            }
-//        }
-//
-//        //*** Age User Input ***
-//        System.out.print("Please enter your Age: ");
-//        pass1.setAge(getInt());
+        //*** Name User Input ***
+        System.out.print("Please enter your Name: ");
+        pass1.setName(getInput.nextLine());
 
-        pass1.setName("Kyle Dick");
-        pass1.setEmail("snooze@zzz.com");
-        pass1.setPhone("(616) 932-1023");
-        pass1.setGender("Male");
-        pass1.setAge(23);
+        //*** Email User Input ***
+        System.out.print("Please enter your Email: ");
+        pass1.setEmail(getInput.nextLine());
+
+        //*** Phone User Input ***
+        System.out.print("Please enter your Phone Number: ");
+        while (true) {
+            String pN = parsePhoneNumber(getInput.nextLine());
+            if (pN != null) {
+                pass1.setPhone(pN);
+                break;
+            } else {
+                getInput.next();
+                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
+                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
+            }
+        }
+
+        //*** Gender User Input ***
+        System.out.print("Please enter your Gender (Male or Female): ");
+        while (true) {
+            String gender = parseGender(getInput.nextLine());
+            if (gender != null) {
+                pass1.setGender(gender);
+                break;
+            } else {
+                getInput.next();
+                System.out.print("Sorry, I could not understand your input. Please try again: ");
+            }
+        }
+
+        //*** Age User Input ***
+        System.out.print("Please enter your Age: ");
+        pass1.setAge(getInt());
+
+//        pass1.setName("Kyle Dick");
+//        pass1.setEmail("snooze@zzz.com");
+//        pass1.setPhone("(616) 932-1023");
+//        pass1.setGender("Male");
+//        pass1.setAge(23);
 
         System.out.println("For the following prompts, select your option by typing in the number.");
         String origin = printListGetInt("Please select an origin:", DepartureTable.getOrigins());
