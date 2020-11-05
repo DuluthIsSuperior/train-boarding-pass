@@ -2,6 +2,7 @@ package main;
 
 import entity.BoardingPassTrain;
 import entity.Train;
+import javassist.Loader;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -60,6 +61,23 @@ public class UserInput {
             return String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
         }
         return null;
+    }
+
+    /**
+     * Looks through the list of given strings to make sure they are in the correct date format.
+     * @param dateTimes list of strings to analyze
+     * @return dateTimes if all Strings are valid dates, else null
+     */
+    public static List<String> validateDates(List<String> dateTimes) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (String dateTime : dateTimes) {
+            try {
+                formatter.parse(dateTime);
+            } catch (ParseException e) {
+                return null;
+            }
+        }
+        return dateTimes;
     }
 
     /**
@@ -141,7 +159,10 @@ public class UserInput {
         choice = getIntRange(1, destinations.size());
         String destination = destinations.get(choice - 1);
 
-        List<String> departureDates = DepartureTable.getDateByDestination(destination);
+        List<String> departureDates = validateDates(DepartureTable.getDateByDestination(destination));
+        if (departureDates == null) {
+            System.out.println("A database error has occurred. Please try again later.");
+        }
         System.out.println("Please select a departure date:");
         IntStream.range(0, departureDates.size())
                 .forEach(i -> System.out.printf("\t%d: %s\n", i + 1, departureDates.get(i)));
