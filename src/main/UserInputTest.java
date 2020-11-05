@@ -12,10 +12,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserInputTest {
+    private static final Scanner testInput = new Scanner(System.in);
     UserInput user;
     BoardingPassTrain test;
     BoardingPassTrain test1;
@@ -95,16 +97,23 @@ class UserInputTest {
         }
     }
 
-
-
     @Test
     void testparsePhoneNumber (){
+
         assertEquals("(901) 243-2672", user.parsePhoneNumber("(901) 243-2672"));
+        assertEquals("(901) 243-2672", user.parsePhoneNumber("9012432672"));
+        assertEquals(null, user.parsePhoneNumber("(901) 243-26"));
+        assertEquals(null, user.parsePhoneNumber("abcdefghij"));
+
     }
 
     @Test
     void testparseGenderNumber (){
         assertEquals("Male", user.parseGender("Male"));
         assertEquals(null, user.parseGender("MALE"));
+        assertEquals(null, user.parseGender("mALE"));
+        assertEquals(null, user.parseGender("MaLE"));
+        assertEquals(null, user.parseGender("MAlE"));
+        assertEquals(null, user.parseGender("MALe"));
     }
 }
