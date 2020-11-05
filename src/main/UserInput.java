@@ -20,65 +20,6 @@ import java.util.stream.IntStream;
 public class UserInput {
     private static final Scanner getInput = new Scanner(System.in);
 
-    private static void write(BoardingPassTrain myBoardingPassTrain, Train myTrain) {
-        Path filepath = Paths.get(String.format("%s/src/boarding_pass_ticket_%s.txt", System.getProperty("user.dir"), myBoardingPassTrain.getId()));
-        String total = "####################################################################################################";
-        String name =  "#      Name: ";
-        String age = "   Age: ";
-        String gender = "   Gender: ";
-        String from = "#      From: ";
-        String to = "   To: ";
-        String departure = "#      Departure: ";
-        String arrival = "   Arrival: ";
-        String email= "#      Email: ";
-        String cellphone = "   Cellphone: ";
-        String ticketPrice = "#      Ticket Price: $";
-
-        int n = total.length();
-        int spaceLeft1 = n - name.length() - myBoardingPassTrain.getName().length() - age.length() - String.valueOf(myBoardingPassTrain.getAge()).length() - gender.length() - myBoardingPassTrain.getGender().length();
-        int spaceLeft2 = n - from.length() - myTrain.getOrigin().length() - to.length() - myTrain.getDestination().length();
-        int spaceLeft3 = n - departure.length() - myTrain.getDeparture().length() - arrival.length() - myBoardingPassTrain.getEta().toString().length();
-        int spaceLeft4 = n -  email.length() - myBoardingPassTrain.getEmail().length() - cellphone.length() - myBoardingPassTrain.getPhone().length();
-        int spaceLeft5 = n - ticketPrice.length() - String.valueOf(myBoardingPassTrain.getTicketPrice()).length();
-        String line1 = "";
-        String line2 = "";
-        String line3 = "";
-        String line4 = "";
-        String line5 = "";
-        for (int i = 0; i < spaceLeft1; i++) {
-            line1 += " ";
-        }
-        for (int i = 0; i < spaceLeft2; i++) {
-            line2 += " ";
-        }
-        for (int i = 0; i < spaceLeft3; i++) {
-            line3 += " ";
-        }
-        for (int i = 0; i < spaceLeft4; i++) {
-            line4 += " ";
-        }
-        for (int i = 0; i < spaceLeft5; i++) {
-            line5 += " ";
-        }
-        try {
-            Files.write(filepath, ("#####################################################################################################\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#                                ****** WORLD FASTEST TRAIN ******                                  #\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#                                                                                                   #\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#                                           T I C K E T                                             #\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#                                                                                                   #\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (name + myBoardingPassTrain.getName() + age + myBoardingPassTrain.getAge() + gender + myBoardingPassTrain.getGender() + line1 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (from + myTrain.getOrigin() + to + myTrain.getDestination() + line2 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (departure + myTrain.getDeparture() + arrival + myBoardingPassTrain.getEta() + line3 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (email + myBoardingPassTrain.getEmail() + cellphone + myBoardingPassTrain.getPhone() + line4 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (ticketPrice + myBoardingPassTrain.getTicketPrice() + line5 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#                                                                                                   #\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#####################################################################################################\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        } catch (Exception e){
-            System.out.println("File does not exist");
-            System.exit(-2);
-        }
-    }
-
     /**
      * Gets an integer from the user within the specified range. Keeps asking until a valid integer is received.
      * @param from starting integer of the range
@@ -146,50 +87,50 @@ public class UserInput {
         System.out.printf("\n+%s+\n+", message);
         IntStream.range(0, message.length()).forEach(i -> System.out.printf("-%s", i != message.length() - 1 ? "" : "+\n"));
 
-        //*** Name User Input ***
-        System.out.print("Please enter your Name: ");
-        pass1.setName(getInput.nextLine());
+//        //*** Name User Input ***
+//        System.out.print("Please enter your Name: ");
+//        pass1.setName(getInput.nextLine());
+//
+//        //*** Email User Input ***
+//        System.out.print("Please enter your Email: ");
+//        pass1.setEmail(getInput.nextLine());
+//
+//        //*** Phone User Input ***
+//        System.out.print("Please enter your Phone Number: ");
+//        while (true) {
+//            String pN = parsePhoneNumber(getInput.nextLine());
+//            if (pN != null) {
+//                pass1.setPhone(pN);
+//                break;
+//            } else {
+//                getInput.next();
+//                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
+//                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
+//            }
+//        }
+//
+//        //*** Gender User Input ***
+//        System.out.print("Please enter your Gender (Male or Female): ");
+//        while (true) {
+//            String gender = parseGender(getInput.nextLine());
+//            if (gender != null) {
+//                pass1.setGender(gender);
+//                break;
+//            } else {
+//                getInput.next();
+//                System.out.print("Sorry, I could not understand your input. Please try again: ");
+//            }
+//        }
+//
+//        //*** Age User Input ***
+//        System.out.print("Please enter your Age: ");
+//        pass1.setAge(getInt());
 
-        //*** Email User Input ***
-        System.out.print("Please enter your Email: ");
-        pass1.setEmail(getInput.nextLine());
-
-        //*** Phone User Input ***
-        System.out.print("Please enter your Phone Number: ");
-        while (true) {
-            String pN = parsePhoneNumber(getInput.nextLine());
-            if (pN != null) {
-                pass1.setPhone(pN);
-                break;
-            } else {
-                getInput.next();
-                System.out.println("Please try again. Your phone number must be typed in one of the following formats:");
-                System.out.print("(XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\n> ");
-            }
-        }
-
-        //*** Gender User Input ***
-        System.out.print("Please enter your Gender (Male or Female): ");
-        while (true) {
-            String gender = parseGender(getInput.nextLine());
-            if (gender != null) {
-                pass1.setGender(gender);
-                break;
-            } else {
-                getInput.next();
-                System.out.print("Sorry, I could not understand your input. Please try again: ");
-            }
-        }
-
-        //*** Age User Input ***
-        System.out.print("Please enter your Age: ");
-        pass1.setAge(getInt());
-
-//        pass1.setName("Kyle Dick");
-//        pass1.setEmail("snooze@zzz.com");
-//        pass1.setPhone("(616) 932-1023");
-//        pass1.setGender("Male");
-//        pass1.setAge(23);
+        pass1.setName("Kyle Dick");
+        pass1.setEmail("snooze@zzz.com");
+        pass1.setPhone("(616) 932-1023");
+        pass1.setGender("Male");
+        pass1.setAge(23);
 
         System.out.println("For the following prompts, select your option by typing in the number.");
         List<String> origins = DepartureTable.getOrigins();
@@ -232,9 +173,9 @@ public class UserInput {
         saveTicket(pass1);
 
         //*** Print Ticket to Text File ***
-        write(pass1, t);
+        BoardingPassWriter.write(pass1, t);
     }
-    //*** Calculates the ETA ***zA
+    //*** Calculates the ETA ***
     public static Date calculateEta(String departure, BigDecimal distance, BigDecimal speed) {
         BigDecimal hour = distance.setScale(2, RoundingMode.HALF_UP).divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
