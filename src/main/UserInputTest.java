@@ -60,6 +60,7 @@ class UserInputTest {
     void testsetPhone(){
         test.setPhone("(901) 241-2672");
         assertEquals("(901) 241-2672", test.getPhone());
+
     }
 
     @Test
@@ -76,11 +77,13 @@ class UserInputTest {
 
     @Test
     void testobjectTicketPrice(){
-        BigDecimal price = new BigDecimal(500.00);
+        BigDecimal price = new BigDecimal(500);
         BigDecimal price1 = new BigDecimal(6000.00);
+        BigDecimal expected = BigDecimal.valueOf(500.00);
         test.setTicketPrice(price);
         test1.setTicketPrice(price1);
         assertNotEquals(test, test1);
+        assertEquals(500, test.getTicketPrice());
     }
 
     @Test
