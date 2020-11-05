@@ -2,8 +2,6 @@ package entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 @Table(name = "schedule")
@@ -11,7 +9,8 @@ public class Train {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
-    private int ID;
+    @SuppressWarnings("unused")
+    private int ID; // variable set by entity
 
     public int getID() {
         return ID;
@@ -29,14 +28,11 @@ public class Train {
     }
 
     @Column(name = "destination", length = 20, nullable = false)
-    private String destination;
+    @SuppressWarnings("unused")
+    private String destination; // variable is set by entity
 
     public String getDestination() {
         return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     @Column(name = "departure", nullable = false)
@@ -51,14 +47,16 @@ public class Train {
     }
 
     @Column(name = "distance", nullable = false)
-    private BigDecimal distance;
+    @SuppressWarnings("unused")
+    private BigDecimal distance;    // variable is set by entity
 
     public BigDecimal getDistance() {
         return distance;
     }
 
     @Column(name = "price", nullable = false)
-    private BigDecimal price;
+    @SuppressWarnings("unused")
+    private BigDecimal price;   // variable is set by entity
 
     public BigDecimal getPrice() {
         return price;

@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.stream.IntStream;
 
 public abstract class BoardingPassWriter {
     private static String centerString(int n, String str) {
