@@ -137,7 +137,7 @@ public class UserInput {
         return null;
     }
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         BoardingPassTrain pass1 = new BoardingPassTrain();
         DepartureTable.init();  // allows hibernate to print whatever garbage it needs to to the console without hiding our print statements
         String message = "Welcome to the World Fastest Train";
@@ -235,11 +235,18 @@ public class UserInput {
         write(pass1, t);
     }
     //*** Calculates the ETA ***zA
-    public static Date calculateEta(String departure, BigDecimal distance, BigDecimal speed) throws ParseException {
+    public static Date calculateEta(String departure, BigDecimal distance, BigDecimal speed) {
         BigDecimal hour = distance.setScale(2, RoundingMode.HALF_UP).divide(speed, RoundingMode.HALF_UP);
         Calendar cal = new GregorianCalendar();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        cal.setTime(formatter.parse(departure));
+        Date date = new Date(0);
+        try {
+            date = formatter.parse(departure);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.out.println("An internal error has occurred. Departure date is not saved.");
+        }
+        cal.setTime(date);
         cal.add(Calendar.HOUR_OF_DAY, hour.intValue());
         int minutes = hour.subtract(new BigDecimal(hour.intValue())).multiply(new BigDecimal(60)).intValue();
         cal.add(Calendar.MINUTE, minutes);
