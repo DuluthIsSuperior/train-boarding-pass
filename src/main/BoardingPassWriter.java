@@ -3,6 +3,7 @@ package main;
 import entity.BoardingPassTrain;
 import entity.Train;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,6 +26,7 @@ public abstract class BoardingPassWriter {
 
     public static void write(BoardingPassTrain pass, Train train) {
         Path filepath = Paths.get(String.format("%s/src/boarding_pass_ticket_%s.txt", System.getProperty("user.dir"), pass.getId()));
+        StringBuilder passStr = new StringBuilder();
         int n = 100;
         StringBuilder total = new StringBuilder().append("#".repeat(n));
         StringBuilder emptyLine = new StringBuilder("#").append(" ".repeat(n - 2)).append("#");
@@ -35,26 +37,24 @@ public abstract class BoardingPassWriter {
         String l4 = String.format("#      Email: %s   Phone: %s", pass.getEmail(), pass.getPhone());
         String l5 = String.format("#      Ticket Price: $%.2f", pass.getTicketPrice().floatValue());
 
-        StringBuilder line1 = new StringBuilder(l1).append(" ".repeat(n - l1.length() - 1)).append("#\n");
-        StringBuilder line2 = new StringBuilder(l2).append(" ".repeat(n - l2.length() - 1)).append("#\n");
-        StringBuilder line3 = new StringBuilder(l3).append(" ".repeat(n - l3.length() - 1)).append("#\n");
-        StringBuilder line4 = new StringBuilder(l4).append(" ".repeat(n - l4.length() - 1)).append("#\n");
-        StringBuilder line5 = new StringBuilder(l5).append(" ".repeat(n - l5.length() - 1)).append("#\n");
+        passStr.append(String.format("%s\n", total.toString()))
+               .append(String.format("%s\n", centerString(n, "****** WORLD FASTEST TRAIN ******")))
+               .append(String.format("%s\n", emptyLine.toString()))
+               .append(String.format("%s\n", centerString(n, "T I C K E T")))
+               .append(String.format("%s\n", emptyLine.toString()))
+               .append(l1).append(" ".repeat(n - l1.length() - 1)).append("#\n")
+               .append(l2).append(" ".repeat(n - l2.length() - 1)).append("#\n")
+               .append(l3).append(" ".repeat(n - l3.length() - 1)).append("#\n")
+               .append(l4).append(" ".repeat(n - l4.length() - 1)).append("#\n")
+               .append(l5).append(" ".repeat(n - l5.length() - 1)).append("#\n")
+               .append(String.format("%s\n", emptyLine.toString()))
+               .append(String.format("%s\n", total.toString()));
         try {
-            Files.writeString(filepath, String.format("%s\n", total.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, String.format("%s\n", centerString(n, "****** WORLD FASTEST TRAIN ******")), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, String.format("%s\n", emptyLine.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, String.format("%s\n", centerString(n, "T I C K E T")), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, String.format("%s\n", emptyLine.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, line1, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, line2, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, line3, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, line4, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, line5, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, String.format("%s\n", emptyLine.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.writeString(filepath, String.format("%s\n", total.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        } catch (Exception e){
-            System.out.println("File does not exist");
+            Files.writeString(filepath, passStr.toString(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("We could not save your boarding pass. Copy the contents below.");
+            System.out.println(passStr.toString());
             System.exit(-2);
         }
     }
