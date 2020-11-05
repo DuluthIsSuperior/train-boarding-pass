@@ -10,31 +10,46 @@ import java.nio.file.StandardOpenOption;
 import java.util.stream.IntStream;
 
 public abstract class BoardingPassWriter {
-    public static void write(BoardingPassTrain myBoardingPassTrain, Train myTrain) {
-        Path filepath = Paths.get(String.format("%s/src/boarding_pass_ticket_%s.txt", System.getProperty("user.dir"), myBoardingPassTrain.getId()));
+    private static String centerString(int n, String str) {
+        float nn = (n - 2 - str.length()) / 2.0F;
+        System.out.println(n + " " + (int) nn + " " + str.length());
+        StringBuilder line = new StringBuilder("#");
+        IntStream.range(0, (int) nn).forEach(i -> line.append(" "));
+        line.append(str);
+        if (nn % 1 != 0) {
+            nn = nn + 1;
+        }
+        System.out.println((int) nn);
+        IntStream.range(0, (int) nn).forEach(i -> line.append(" "));
+        line.append("#");
+        return line.toString();
+    }
+
+    public static void write(BoardingPassTrain pass, Train train) {
+        Path filepath = Paths.get(String.format("%s/src/boarding_pass_ticket_%s.txt", System.getProperty("user.dir"), pass.getId()));
         StringBuilder total = new StringBuilder();
         int n = 100;
-        IntStream.range(0, n + 1).forEach(i -> total.append("#"));
+        IntStream.range(0, n).forEach(i -> total.append("#"));
         StringBuilder emptyLine = new StringBuilder("#");
-        IntStream.range(0, n - 1).forEach(i -> emptyLine.append(" "));
+        IntStream.range(0, n - 2).forEach(i -> emptyLine.append(" "));
         emptyLine.append("#");
 
-        String name =  "#      Name: ";
-        String age = "   Age: ";
-        String gender = "   Gender: ";
-        String from = "#      From: ";
-        String to = "   To: ";
-        String departure = "#      Departure: ";
-        String arrival = "   Arrival: ";
-        String email= "#      Email: ";
-        String cellphone = "   Cellphone: ";
-        String ticketPrice = "#      Ticket Price: $";
+        String name = String.format("#      Name: %s", pass.getName());
+        String age = String.format("   Age: %d", pass.getAge());
+        String gender = String.format("   Gender: %s", pass.getGender());
+        String from = String.format("#      From: %s", train.getOrigin());
+        String to = String.format("   To: %s", train.getDestination());
+        String departure = String.format("#      Departure: %s", train.getDeparture());
+        String arrival = String.format("   Arrival: %s", pass.getEta());
+        String email= String.format("#      Email: %s", pass.getEmail());
+        String phone = String.format("   Phone: %s", pass.getPhone());
+        String ticketPrice = String.format("#      Ticket Price: $%.2f", pass.getTicketPrice().floatValue());
 
-        int spaceLeft1 = n - name.length() - myBoardingPassTrain.getName().length() - age.length() - String.valueOf(myBoardingPassTrain.getAge()).length() - gender.length() - myBoardingPassTrain.getGender().length();
-        int spaceLeft2 = n - from.length() - myTrain.getOrigin().length() - to.length() - myTrain.getDestination().length();
-        int spaceLeft3 = n - departure.length() - myTrain.getDeparture().length() - arrival.length() - myBoardingPassTrain.getEta().toString().length();
-        int spaceLeft4 = n -  email.length() - myBoardingPassTrain.getEmail().length() - cellphone.length() - myBoardingPassTrain.getPhone().length();
-        int spaceLeft5 = n - ticketPrice.length() - String.valueOf(myBoardingPassTrain.getTicketPrice()).length();
+        int spaceLeft1 = n - name.length() - age.length() - gender.length() - 1;
+        int spaceLeft2 = n - from.length() - to.length() - 1;
+        int spaceLeft3 = n - departure.length() - arrival.length() - 1;
+        int spaceLeft4 = n -  email.length() - phone.length() - 1;
+        int spaceLeft5 = n - ticketPrice.length() - 1;
         String line1 = "";
         String line2 = "";
         String line3 = "";
@@ -57,16 +72,16 @@ public abstract class BoardingPassWriter {
         }
         try {
             Files.writeString(filepath, String.format("%s\n", total.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#                                ****** WORLD FASTEST TRAIN ******                                  #\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(filepath, String.format("%s\n", centerString(n, "****** WORLD FASTEST TRAIN ******")), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.writeString(filepath, String.format("%s\n", emptyLine.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#                                           T I C K E T                                             #\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(filepath, String.format("%s\n", centerString(n, "T I C K E T")), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.writeString(filepath, String.format("%s\n", emptyLine.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (name + myBoardingPassTrain.getName() + age + myBoardingPassTrain.getAge() + gender + myBoardingPassTrain.getGender() + line1 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (from + myTrain.getOrigin() + to + myTrain.getDestination() + line2 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (departure + myTrain.getDeparture() + arrival + myBoardingPassTrain.getEta() + line3 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (email + myBoardingPassTrain.getEmail() + cellphone + myBoardingPassTrain.getPhone() + line4 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, (ticketPrice + myBoardingPassTrain.getTicketPrice() + line5 + "#\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            Files.write(filepath, ("#                                                                                                   #\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(filepath, name + age + gender + line1 + "#\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(filepath, from + to + line2 + "#\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(filepath, departure + arrival + line3 + "#\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(filepath, email + phone + line4 + "#\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(filepath, ticketPrice + line5 + "#\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(filepath, String.format("%s\n", emptyLine.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             Files.writeString(filepath, String.format("%s\n", total.toString()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (Exception e){
             System.out.println("File does not exist");
