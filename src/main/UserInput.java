@@ -103,6 +103,10 @@ public class UserInput {
     public static String parseGender(String gender) {
         if (gender.matches("[Mm]ale|[Ff]emale")) {
             return String.format("%s%s", gender.substring(0, 1).toUpperCase(), gender.substring(1));
+        } else if (gender.matches("[Mm]")) {
+            return "Male";
+        } else if (gender.matches("[Ff]")) {
+            return "Female";
         }
         return null;
     }
@@ -123,8 +127,7 @@ public class UserInput {
         BoardingPassTrain pass1 = new BoardingPassTrain();
         DepartureTable.init();  // allows hibernate to print whatever garbage it needs to to the console without hiding our print statements
         String message = "Welcome to the World Fastest Train";
-        System.out.println(new StringBuilder("+").append("-".repeat(message.length())).append("+\n+")
-                .append(message).append("+\n+").append("-".repeat(message.length())).append("+"));
+        System.out.println("+" + "-".repeat(message.length()) + "+\n+" + message + "+\n+" + "-".repeat(message.length()) + "+");
 
         //*** Name User Input ***
         System.out.print("Please enter your Name: ");
@@ -225,19 +228,16 @@ public class UserInput {
     }
 
     public static void saveTicket(BoardingPassTrain pass) {
-        SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(BoardingPassTrain.class)
-                .buildSessionFactory();
 
-        try {
+        try (SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
+                .addAnnotatedClass(BoardingPassTrain.class)
+                .buildSessionFactory()) {
             Session session = factory.getCurrentSession();
             session.beginTransaction();
             session.save(pass);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            factory.close();
         }
     }
 }
