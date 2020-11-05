@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="" />
+    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/out/test/train-boarding-pass/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/train-boarding-pass/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/UserInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/UserInputTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,7 +77,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserInput">
+  <component name="RunManager" selected="JUnit.UserInputTest">
     <configuration name="TestConnection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test_resources.TestConnection" />
       <module name="train-boarding-pass" />
@@ -101,15 +104,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserInputTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="train-boarding-pass" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="UserInputTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="UserInputTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="train-boarding-pass" />
       <extension name="coverage">
@@ -125,12 +119,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.TestConnection" />
+      <item itemvalue="Application.UserInput" />
+      <item itemvalue="JUnit.UserInputTest" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserInput" />
-        <item itemvalue="JUnit.UserInputTest (1)" />
-        <item itemvalue="Application.TestConnection" />
         <item itemvalue="JUnit.UserInputTest" />
+        <item itemvalue="Application.TestConnection" />
+        <item itemvalue="Application.UserInput" />
       </list>
     </recent_temporary>
   </component>
@@ -155,36 +153,41 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="121" y="0" key="#Project_Structure" timestamp="1604522875214">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="121" y="0" key="#Project_Structure/0.0.1280.680@0.0.1280.680" timestamp="1604522875214" />
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604529580594">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1604529580594" />
     <state x="348" y="82" key="FileChooserDialogImpl" timestamp="1604430043926">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="348" y="82" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1604430043926" />
-    <state width="1237" height="141" key="GridCell.Tab.0.bottom" timestamp="1604524859650">
+    <state width="1237" height="141" key="GridCell.Tab.0.bottom" timestamp="1604529429723">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604524859650" />
-    <state width="1237" height="141" key="GridCell.Tab.0.center" timestamp="1604524859649">
+    <state width="1237" height="141" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604529429723" />
+    <state width="1237" height="141" key="GridCell.Tab.0.center" timestamp="1604529429723">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604524859649" />
-    <state width="1237" height="141" key="GridCell.Tab.0.left" timestamp="1604524859649">
+    <state width="1237" height="141" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604529429723" />
+    <state width="1237" height="141" key="GridCell.Tab.0.left" timestamp="1604529429723">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604524859649" />
-    <state width="1237" height="141" key="GridCell.Tab.0.right" timestamp="1604524859650">
+    <state width="1237" height="141" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604529429723" />
+    <state width="1237" height="141" key="GridCell.Tab.0.right" timestamp="1604529429723">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="141" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604524859650" />
-    <state x="121" y="0" key="SettingsEditor" timestamp="1604523787764">
+    <state width="1237" height="141" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604529429723" />
+    <state x="121" y="0" key="SettingsEditor" timestamp="1604529555648">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="121" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1604523787764" />
+    <state x="121" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1604529555648" />
     <state x="451" y="118" key="chooseDestDirectoryDialog" timestamp="1604507135338">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
