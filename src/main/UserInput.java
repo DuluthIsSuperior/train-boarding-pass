@@ -20,9 +20,8 @@ import java.util.stream.IntStream;
 public class UserInput {
     private static final Scanner getInput = new Scanner(System.in);
 
-    static Path filepath = Paths.get(System.getProperty("user.dir") + "/src/boarding_pass_ticket.txt");
-
-    private static void write(Path filepath, BoardingPassTrain myBoardingPassTrain, Train myTrain) {
+    private static void write(BoardingPassTrain myBoardingPassTrain, Train myTrain) {
+        Path filepath = Paths.get(String.format("%s/src/boarding_pass_ticket_%s.txt", System.getProperty("user.dir"), myBoardingPassTrain.getId()));
         String total = "####################################################################################################";
         String name =  "#      Name: ";
         String age = "   Age: ";
@@ -140,6 +139,7 @@ public class UserInput {
 
     public static void main(String[] args) throws ParseException {
         BoardingPassTrain pass1 = new BoardingPassTrain();
+        DepartureTable.init();  // allows hibernate to print whatever garbage it needs to to the console without hiding our print statements
         String message = "Welcome to the World Fastest Train";
         System.out.print("+");
         IntStream.range(0, message.length()).forEach(i -> System.out.print("-"));
@@ -185,6 +185,11 @@ public class UserInput {
         System.out.print("Please enter your Age: ");
         pass1.setAge(getInt());
 
+//        pass1.setName("Kyle Dick");
+//        pass1.setEmail("snooze@zzz.com");
+//        pass1.setPhone("(616) 932-1023");
+//        pass1.setGender("Male");
+//        pass1.setAge(23);
 
         System.out.println("For the following prompts, select your option by typing in the number.");
         List<String> origins = DepartureTable.getOrigins();
@@ -227,7 +232,7 @@ public class UserInput {
         saveTicket(pass1);
 
         //*** Print Ticket to Text File ***
-        write(filepath, pass1, t);
+        write(pass1, t);
     }
     //*** Calculates the ETA ***zA
     public static Date calculateEta(String departure, BigDecimal distance, BigDecimal speed) throws ParseException {

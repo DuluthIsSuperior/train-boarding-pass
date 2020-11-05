@@ -5,15 +5,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public abstract class DepartureTable {
     private static final SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Train.class)
                 .buildSessionFactory();
+
+    /**
+     * Allows the session to be initialized so that hibernate dumps its garbage away from our print statements
+     */
+    public static void init() {
+        factory.getCurrentSession();
+    }
 
     @SuppressWarnings("unchecked")
     private static <T> List<T> runQuery(String query, boolean isNative) {
