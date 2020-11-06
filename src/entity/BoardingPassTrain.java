@@ -4,40 +4,40 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-//Student Entity
-@Entity //This will let Java know that this is an entity that we are going to map to a database table.
-//will mark a particular class as an entity bean, so it must have a no-argument constructor
-@Table(name = "boarding_pass") //This is for the actual name of the database table name we are mapping to the class.
+//Boarding Pass Entity
+@Entity
+
+@Table(name = "boarding_pass")
 public class BoardingPassTrain {
 
     //Database Mapping
-    @Id //This will map the primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //This is used with auto increment for your primary key.
-    @Column(name = "id") //This is mapping the primary key to the id column in your database.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "train_id")
     private int trainID;
 
-    @Column(name = "name") //This will map the name field to the column named first_name in your student table.
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "eta") //This will map the eta field to the column named email in your student table.
+    @Column(name = "eta")
     private  Date eta;
 
-    @Column(name = "email") //This will map the email field to the column named email in your student table.
+    @Column(name = "email")
     private  String email;
 
-    @Column(name = "phone") //This will map the phone field to the column named email in your student table.
+    @Column(name = "phone")
     private  String phone;
 
-    @Column(name = "gender") //This will map the gender field to the column named email in your student table.
+    @Column(name = "gender")
     private  String gender;
 
-    @Column(name = "age") //This will map the age field to the column named email in your student table.
+    @Column(name = "age")
     private  int age;
 
-    @Column(name = "ticket_price") //This will map the ticket price field to the column named email in your student table.
+    @Column(name = "ticket_price")
     private BigDecimal ticketPrice;
 
     //Constructors
