@@ -82,14 +82,15 @@ class UserInputTest {
     void testobjectTicketPrice(){
         BigDecimal price = new BigDecimal(500.00);
         BigDecimal price1 = new BigDecimal(6000.00);
+        MyBigDecimal amount = new MyBigDecimal(price1);
         BigDecimal expected = BigDecimal.valueOf(500.00);
         test.setTicketPrice(price);
         test1.setTicketPrice(price1);
         assertNotEquals(test, test1);
         //assertEquals(500, test.getTicketPrice());
         assertSame(price, test.getTicketPrice());
-        assertTrue(BigDecimal.valueOf(500.00).compareTo(test.getTicketPrice()) == 0);
-        assertTrue(BigDecimal.valueOf(500.000000).compareTo(test.getTicketPrice()) == 0);
+        assertTrue(expected.compareTo(test.getTicketPrice()) == 0);
+        assertTrue(amount.compareTo(test1.getTicketPrice()) == 0);
     }
 
     @Test
