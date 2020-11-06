@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="Big Decimal Test - Herman" />
+    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="Big Decimal Test - Herman">
+      <change beforePath="$PROJECT_DIR$/src/main/UserInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/UserInputTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,7 +76,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserInput">
+  <component name="RunManager" selected="JUnit.UserInputTest">
     <configuration name="TestConnection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test_resources.TestConnection" />
       <module name="train-boarding-pass" />
@@ -140,8 +142,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserInput" />
         <item itemvalue="JUnit.UserInputTest" />
+        <item itemvalue="Application.UserInput" />
         <item itemvalue="JUnit.UserInputTest.testsetName" />
         <item itemvalue="Application.TestConnection" />
       </list>
@@ -215,22 +217,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="348" y="82" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1604430043926" />
-    <state width="1237" height="139" key="GridCell.Tab.0.bottom" timestamp="1604612211809">
+    <state width="1237" height="139" key="GridCell.Tab.0.bottom" timestamp="1604612517743">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="139" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604612211809" />
-    <state width="1237" height="139" key="GridCell.Tab.0.center" timestamp="1604612211808">
+    <state width="1237" height="139" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604612517743" />
+    <state width="1237" height="139" key="GridCell.Tab.0.center" timestamp="1604612517743">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="139" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604612211808" />
-    <state width="1237" height="139" key="GridCell.Tab.0.left" timestamp="1604612211806">
+    <state width="1237" height="139" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604612517743" />
+    <state width="1237" height="139" key="GridCell.Tab.0.left" timestamp="1604612517741">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="139" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604612211806" />
-    <state width="1237" height="139" key="GridCell.Tab.0.right" timestamp="1604612211809">
+    <state width="1237" height="139" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604612517741" />
+    <state width="1237" height="139" key="GridCell.Tab.0.right" timestamp="1604612517743">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="139" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604612211809" />
+    <state width="1237" height="139" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604612517743" />
     <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1604532856508">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
