@@ -19,12 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="More Unit Tests - Herman">
-      <change beforePath="$PROJECT_DIR$/out/test/train-boarding-pass/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/train-boarding-pass/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/BoardingPassTrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/BoardingPassTrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/UserInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/UserInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/UserInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/UserInputTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="6b75f743-066c-465a-89b4-e6676a91cc86" name="Default Changelist" comment="Big Decimal Test - Herman" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +74,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserInputTest">
+  <component name="RunManager" selected="Application.UserInput">
     <configuration name="TestConnection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test_resources.TestConnection" />
       <module name="train-boarding-pass" />
@@ -145,9 +140,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.UserInput" />
         <item itemvalue="JUnit.UserInputTest" />
         <item itemvalue="JUnit.UserInputTest.testsetName" />
-        <item itemvalue="Application.UserInput" />
         <item itemvalue="Application.TestConnection" />
       </list>
     </recent_temporary>
@@ -175,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604588620979</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Big Decimal Test - Herman">
+      <created>1604604252059</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1604604252061</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -193,7 +195,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Boarding Pass Train Test - Herman" />
     <MESSAGE value="More Unit Tests - Herman" />
-    <option name="LAST_COMMIT_MESSAGE" value="More Unit Tests - Herman" />
+    <MESSAGE value="Big Decimal Test - Herman" />
+    <option name="LAST_COMMIT_MESSAGE" value="Big Decimal Test - Herman" />
   </component>
   <component name="WindowStateProjectService">
     <state x="121" y="0" key="#Project_Structure" timestamp="1604522875214">
@@ -212,22 +215,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="348" y="82" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1604430043926" />
-    <state width="1237" height="139" key="GridCell.Tab.0.bottom" timestamp="1604603064091">
+    <state width="1237" height="139" key="GridCell.Tab.0.bottom" timestamp="1604612211809">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="139" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604603064091" />
-    <state width="1237" height="139" key="GridCell.Tab.0.center" timestamp="1604603064091">
+    <state width="1237" height="139" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604612211809" />
+    <state width="1237" height="139" key="GridCell.Tab.0.center" timestamp="1604612211808">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="139" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604603064091" />
-    <state width="1237" height="139" key="GridCell.Tab.0.left" timestamp="1604603064090">
+    <state width="1237" height="139" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604612211808" />
+    <state width="1237" height="139" key="GridCell.Tab.0.left" timestamp="1604612211806">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="139" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604603064090" />
-    <state width="1237" height="139" key="GridCell.Tab.0.right" timestamp="1604603064091">
+    <state width="1237" height="139" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604612211806" />
+    <state width="1237" height="139" key="GridCell.Tab.0.right" timestamp="1604612211809">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="139" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604603064091" />
+    <state width="1237" height="139" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604612211809" />
     <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1604532856508">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -248,10 +251,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="121" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1604529555648" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1604588616145">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1604604251681">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1604588616145" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1604604251681" />
     <state x="451" y="118" key="chooseDestDirectoryDialog" timestamp="1604507135338">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
